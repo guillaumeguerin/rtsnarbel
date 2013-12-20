@@ -10,7 +10,7 @@ import gameframework.game.GameEntity;
 public class Grass implements Drawable, GameEntity {
 	protected static DrawableImage image = null;
 	int x, y;
-	public static final int RENDERING_SIZE = 16;
+	public static final int RENDERING_SIZE = 32;
 
 	public Grass(Canvas defaultCanvas, int xx, int yy) {
 		image = new DrawableImage("images/grass.gif", defaultCanvas);

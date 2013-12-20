@@ -20,7 +20,7 @@ public class Ghost extends GameMovable implements Drawable, GameEntity,
 	protected int maxAfraidTimer = 0;
 	protected boolean active = true;
 	private final SpriteManagerDefaultImpl spriteManager;
-	public static final int RENDERING_SIZE = 16;
+	public static final int RENDERING_SIZE = 32;
 
 	public Ghost(Canvas defaultCanvas) {
 		spriteManager = new SpriteManagerDefaultImpl("images/ghost.gif",

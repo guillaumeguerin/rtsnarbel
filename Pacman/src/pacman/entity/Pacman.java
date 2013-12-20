@@ -15,7 +15,7 @@ import java.awt.Rectangle;
 public class Pacman extends GameMovable implements Drawable, GameEntity,
 		Overlappable {
 	protected final SpriteManager spriteManager;
-	public static final int RENDERING_SIZE = 16;
+	public static final int RENDERING_SIZE = 32;
 	protected boolean movable = true;
 	protected boolean vulnerable = false;
 	protected int vulnerableTimer = 0;

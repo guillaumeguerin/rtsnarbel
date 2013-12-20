@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 public class Jail implements GameEntity, Overlappable {
-	public static final int SPRITE_SIZE = 16;
+	public static final int SPRITE_SIZE = 32;
 
 	protected Point position;
 

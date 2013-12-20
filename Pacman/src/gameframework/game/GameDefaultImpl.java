@@ -25,11 +25,11 @@ import javax.swing.JPanel;
  * Create a basic game application with menus and displays of lives and score
  */
 public class GameDefaultImpl implements Game, Observer {
-	protected static final int NB_ROWS = 31;
-	protected static final int NB_COLUMNS = 28;
-	protected static final int SPRITE_SIZE = 16;
-	public static final int MAX_NUMBER_OF_PLAYER = 4;
-	public static final int NUMBER_OF_LIVES = 1;
+	protected static final int NB_ROWS = GameConfig.NB_ROWS;
+	protected static final int NB_COLUMNS = GameConfig.NB_COLUMNS;
+	protected static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
+	public static final int MAX_NUMBER_OF_PLAYER = GameConfig.MAX_NUMBER_OF_PLAYER;
+	public static final int NUMBER_OF_LIVES = GameConfig.NUMBER_OF_LIVES;
 
 	protected CanvasDefaultImpl defaultCanvas = null;
 	protected ObservableValue<Integer> score[] = new ObservableValue[MAX_NUMBER_OF_PLAYER];
@@ -56,7 +56,7 @@ public class GameDefaultImpl implements Game, Observer {
 			score[i] = new ObservableValue<Integer>(0);
 			life[i] = new ObservableValue<Integer>(0);
 		}
-		lifeText = new Label("Lives:");
+		lifeText = new Label("Soldiers:");
 		scoreText = new Label("Score:");
 		information = new Label("State:");
 		informationValue = new Label("Playing");

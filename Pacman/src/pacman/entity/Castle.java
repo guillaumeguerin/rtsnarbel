@@ -13,7 +13,7 @@ import java.awt.Rectangle;
 public class Castle implements Drawable, MoveBlocker, GameEntity {
 	protected static DrawableImage image = null;
 	int x, y;
-	public static final int RENDERING_SIZE = 16;
+	public static final int RENDERING_SIZE = 32;
 
 	public Castle(Canvas defaultCanvas, int xx, int yy) {
 		image = new DrawableImage("images/castle.gif", defaultCanvas);

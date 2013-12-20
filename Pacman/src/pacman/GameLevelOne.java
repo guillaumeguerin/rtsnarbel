@@ -4,6 +4,7 @@ import gameframework.base.MoveStrategyKeyboard;
 import gameframework.base.MoveStrategyRandom;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
+import gameframework.game.GameConfig;
 import gameframework.game.GameLevelDefaultImpl;
 import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameUniverseDefaultImpl;
@@ -70,8 +71,8 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
 			{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 } };
 
-	public static final int SPRITE_SIZE = 16;
-	public static final int NUMBER_OF_GHOSTS = 5;
+	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
+	public static final int NUMBER_OF_GHOSTS = 0;
 
 	@Override
 	protected void init() {

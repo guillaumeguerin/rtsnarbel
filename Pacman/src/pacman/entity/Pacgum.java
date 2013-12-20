@@ -13,7 +13,7 @@ import java.awt.Rectangle;
 public class Pacgum implements Drawable, GameEntity, Overlappable {
 	protected static DrawableImage image = null;
 	protected Point position;
-	public static final int RENDERING_SIZE = 16;
+	public static final int RENDERING_SIZE = 32;
 
 	public Pacgum(Canvas defaultCanvas, Point pos) {
 		image = new DrawableImage("images/pacgum.gif", defaultCanvas);

@@ -7,7 +7,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 public class TeleportPairOfPoints implements GameEntity, Overlappable {
-	public static final int RENDERING_SIZE = 16;
+	public static final int RENDERING_SIZE = 32;
 
 	protected Point position;
 	protected Point destination;
