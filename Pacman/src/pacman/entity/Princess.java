@@ -8,11 +8,12 @@ import gameframework.game.GameMovable;
 import gameframework.game.SpriteManagerDefaultImpl;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class Ghost extends GameMovable implements Drawable, GameEntity,
+public class Princess extends GameMovable implements Drawable, GameEntity,
 		Overlappable {
 	protected static DrawableImage image = null;
 	protected boolean movable = true;
@@ -22,27 +23,8 @@ public class Ghost extends GameMovable implements Drawable, GameEntity,
 	private final SpriteManagerDefaultImpl spriteManager;
 	public static final int RENDERING_SIZE = 32;
 
-	public Ghost(Canvas defaultCanvas) {
-		/*spriteManager = new SpriteManagerDefaultImpl("images/ghost.gif",
-				defaultCanvas, RENDERING_SIZE, 6);
-		spriteManager.setTypes(
-				//
-				"left",
-				"right",
-				"up",
-				"down",//
-				"beginAfraid-left",
-				"beginAfraid-right",
-				"beginAfraid-up",
-				"beginAfraid-down", //
-				"endAfraid-left", "endAfraid-right",
-				"endAfraid-up",
-				"endAfraid-down", //
-				"inactive-left", "inactive-right", "inactive-up",
-				"inactive-down", //
-				"unused");
-				*/
-		spriteManager = new SpriteManagerDefaultImpl("images/princess1.png",
+	public Princess(Canvas defaultCanvas) {
+		spriteManager = new SpriteManagerDefaultImpl("images/princess.png",
 				defaultCanvas, RENDERING_SIZE, 3);
 		spriteManager.setTypes(
 				//
@@ -74,25 +56,14 @@ public class Ghost extends GameMovable implements Drawable, GameEntity,
 		Point tmp = getTravelVector().getSpeedVector().getDirection();
 		movable = true;
 
-		if (!isActive()) {
+		/*if (!isActive()) {
 			spriteType = "inactive-";
 		} else if (afraidTimer > maxAfraidTimer / 2) {
 			spriteType = "beginAfraid-";
 		} else if (isAfraid()) {
 			spriteType = "endAfraid-";
-		}
-
-		/*if (tmp.getX() == -1) {
-			spriteType += "left";
-		} else if (tmp.getY() == 1) {
-			spriteType += "down";
-		} else if (tmp.getY() == -1) {
-			spriteType += "up";
-		} else {
-			spriteType += "right";
 		}*/
 
-		
 		if (tmp.getX() == -1) {
 			spriteType += "left";
 		} else if (tmp.getY() == 1) {
@@ -107,9 +78,15 @@ public class Ghost extends GameMovable implements Drawable, GameEntity,
 			spriteManager.reset();
 			movable = false;
 		}
-		
 		spriteManager.setType(spriteType);
 		spriteManager.draw(g, getPosition());
+		
+		g.setColor(Color.red);
+		g.fillRect(getPosition().x, getPosition().y - 15, 30, 5);
+		g.setColor(Color.black);
+		g.drawRect(getPosition().x, getPosition().y - 15, 30, 5);
+		g.drawString("Princess 1", getPosition().x-5, getPosition().y-20);
+		
 	}
 
 	@Override

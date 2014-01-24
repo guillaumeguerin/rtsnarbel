@@ -75,8 +75,8 @@ public class IntersectToolsTest implements Movable {
 	}
 
 	@Override
-	public SpeedVector getSpeedVector() {
-		return new SpeedVectorDefaultImpl(direction, speed);
+	public TravelVector getTravelVector() {
+		return new TravelVectorDefaultImpl(new Point(0,0), new Point(0,0), new SpeedVectorDefaultImpl(direction, speed));
 	}
 
 	@Override
@@ -85,7 +85,7 @@ public class IntersectToolsTest implements Movable {
 	}
 
 	@Override
-	public void setSpeedVector(SpeedVector m) {
+	public void setTravelVector(TravelVector m) {
 		fail("No need to set the speed vector");
 	}
 

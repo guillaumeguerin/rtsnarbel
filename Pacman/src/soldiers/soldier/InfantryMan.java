@@ -11,4 +11,9 @@ public class InfantryMan extends SoldierAbstract {
 	public void heal() { //XXX resurrection allowed
 		healthPoints = HEALTHPOINTS;
 	}
+
+	//used to print the life bar
+	public float getTotalHealthPoints() {
+		return 100;
+	}
 }		

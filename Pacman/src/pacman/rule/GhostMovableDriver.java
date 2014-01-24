@@ -2,6 +2,7 @@ package pacman.rule;
 
 import gameframework.base.Movable;
 import gameframework.base.SpeedVector;
+import gameframework.base.TravelVector;
 import gameframework.game.GameMovableDriverDefaultImpl;
 
 public class GhostMovableDriver extends GameMovableDriverDefaultImpl {
@@ -11,38 +12,38 @@ public class GhostMovableDriver extends GameMovableDriverDefaultImpl {
 	// Random speed vectors are (1,0) (0,1) (-1,0) (0,-1), but sometimes speed
 	// vectors are reinitialized to (0,0) by GameMovableDriver.
 	@Override
-	public SpeedVector getSpeedVector(Movable m) {
-		SpeedVector currentSpeedVector, possibleSpeedVector;
+	public TravelVector getTravelVector(Movable m) {
+		TravelVector currentTravelVector, possibleTravelVector;
 
-		currentSpeedVector = m.getSpeedVector();
-		possibleSpeedVector = super.getSpeedVector(m);
+		currentTravelVector = m.getTravelVector();
+		possibleTravelVector = super.getTravelVector(m);
 
 		int nbTries = 10;
 		while (true) {
 			nbTries--;
-			if ((possibleSpeedVector.getDirection().getX() == currentSpeedVector
+			if ((possibleTravelVector.getDirection().getX() == currentTravelVector
 					.getDirection().getX())
-					&& (possibleSpeedVector.getDirection().getY() != -currentSpeedVector
+					&& (possibleTravelVector.getDirection().getY() != -currentTravelVector
 							.getDirection().getY()))
 				break;
 
-			if ((possibleSpeedVector.getDirection().getX() != -currentSpeedVector
+			if ((possibleTravelVector.getDirection().getX() != -currentTravelVector
 					.getDirection().getX())
-					&& (possibleSpeedVector.getDirection().getY() == currentSpeedVector
+					&& (possibleTravelVector.getDirection().getY() == currentTravelVector
 							.getDirection().getY()))
 				break;
 
-			if ((possibleSpeedVector.getDirection().getX() != currentSpeedVector
+			if ((possibleTravelVector.getDirection().getX() != currentTravelVector
 					.getDirection().getX())
-					&& (possibleSpeedVector.getDirection().getY() != currentSpeedVector
+					&& (possibleTravelVector.getDirection().getY() != currentTravelVector
 							.getDirection().getY()))
 				break;
 
-			possibleSpeedVector = super.getSpeedVector(m);
+			possibleTravelVector = super.getTravelVector(m);
 			if (nbTries < 1)
 				break;
 		}
-		return (possibleSpeedVector);
+		return (possibleTravelVector);
 	}
 
 }

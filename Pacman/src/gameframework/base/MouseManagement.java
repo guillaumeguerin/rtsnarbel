@@ -1,25 +1,38 @@
 package gameframework.base;
 
 import gameframework.game.GameConfig;
+import gameframework.game.GameEntity;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * {@link MoveStrategy} which listens to the keyboard and answers new
  * {@link SpeedVector speed vectors} based on what the user typed.
  */
-public class MoveStrategyKeyboard extends KeyAdapter implements MoveStrategy {
-	protected TravelVector travelVector = TravelVectorDefaultImpl.createNullVector();
+public class MouseManagement extends MouseAdapter {
 
-	public TravelVector getTravelVector() {
-		return travelVector;
+	ConcurrentLinkedQueue<GameEntity> gameEntities = null;
+	
+	/*public MouseManagement(Iterator<GameEntity> iterator) {
+		gameEntities = (ConcurrentLinkedQueue<GameEntity>) iterator;
+	}*/
+	
+	public void mousePressed(MouseEvent event) {
+		System.out.println("coord x : " + event.getX() + "   y : "+ event.getY());
+
+		Rectangle mouseBoundingBox = new Rectangle(event.getX(),event.getY(),GameConfig.SPRITE_SIZE,GameConfig.SPRITE_SIZE);
+		/*for(GameEntity x: gameEntities) {
+			
+		}*/
 	}
-
-	@Override
-	public void keyPressed(KeyEvent event) {
-		int keycode = event.getKeyCode();
+		/*int keycode = event.getKeyCode();
 		switch (keycode) {
 		case KeyEvent.VK_RIGHT:
 			travelVector.setDirection(new Point(1, 0));
@@ -42,5 +55,5 @@ public class MoveStrategyKeyboard extends KeyAdapter implements MoveStrategy {
 			//travelVector.setSpeed(4);
 			break;
 		}
-	}
+	}*/
 }

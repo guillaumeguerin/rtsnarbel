@@ -11,4 +11,9 @@ public class Horseman extends SoldierAbstract {
 	public void heal() { //XXX resurrection allowed
 		healthPoints = HEALTHPOINTS;
 	}
+
+
+	public float getTotalHealthPoints() {
+		return 120;
+	}
 }

@@ -11,13 +11,17 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class Pacgum implements Drawable, GameEntity, Overlappable {
+import soldiers.weapon.Shield;
+
+public class ShieldDraw implements Drawable, GameEntity, Overlappable {
 	protected static DrawableImage image = null;
 	protected Point position;
 	public static final int RENDERING_SIZE = GameConfig.SPRITE_SIZE;
-
-	public Pacgum(Canvas defaultCanvas, Point pos) {
-		image = new DrawableImage("images/pacgum.gif", defaultCanvas);
+	public Shield myShield = new Shield();
+	
+	
+	public ShieldDraw(Canvas defaultCanvas, Point pos) {
+		image = new DrawableImage("images/shield.png", defaultCanvas);
 		position = pos;
 	}
 

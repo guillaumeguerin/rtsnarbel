@@ -8,10 +8,10 @@ import java.util.Random;
  * left, right)
  */
 public class MoveStrategyRandom implements MoveStrategy {
-	SpeedVector currentMove = new SpeedVectorDefaultImpl(new Point(0, 0));
+	TravelVector currentMove = TravelVectorDefaultImpl.createNullVector();
 	static Random random = new Random();
 
-	public SpeedVector getSpeedVector() {
+	public TravelVector getTravelVector() {
 		int i = random.nextInt(5);
 
 		switch (i) {

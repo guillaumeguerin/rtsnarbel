@@ -51,4 +51,9 @@ public abstract class SoldierArmed<W extends Weapon> implements Soldier {
 		weapon.damageCompute(WEARINESS_COEF);
 		return force;
 	}
+	
+	public float getTotalHealthPoints() {
+		return soldier.getTotalHealthPoints();
+		
+	}
 }

@@ -7,7 +7,7 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GameUniverseDefaultImpl implements GameUniverse {
-	private ConcurrentLinkedQueue<GameEntity> gameEntities = new ConcurrentLinkedQueue<GameEntity>();
+	protected ConcurrentLinkedQueue<GameEntity> gameEntities = new ConcurrentLinkedQueue<GameEntity>();
 	private OverlapProcessor overlapProcessor;
 	private MoveBlockerChecker moveBlockerChecker;
 
@@ -50,6 +50,10 @@ public class GameUniverseDefaultImpl implements GameUniverse {
 
 	public void processAllOverlaps() {
 		overlapProcessor.processOverlapsAll();
+	}
+	
+	public ConcurrentLinkedQueue<GameEntity> getGameEntities(){
+		return gameEntities;
 	}
 
 }

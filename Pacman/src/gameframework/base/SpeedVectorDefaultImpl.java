@@ -41,8 +41,14 @@ public class SpeedVectorDefaultImpl implements SpeedVector {
 		this.speed = speed;
 	}
 
-	@Override
+
 	public Object clone() {
 		return new SpeedVectorDefaultImpl(direction, speed);
 	}
+
+	public void printSpeedValues() {
+		System.out.println("Speed value : " + this.speed);
+	}
+
+
 }

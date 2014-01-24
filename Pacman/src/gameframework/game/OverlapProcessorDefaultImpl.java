@@ -98,10 +98,10 @@ public class OverlapProcessorDefaultImpl implements OverlapProcessor {
 				targetShape = IntersectTools.getIntersectShape(
 						(Movable) targetOverlappable,
 						new SpeedVectorDefaultImpl(
-								((Movable) targetOverlappable).getSpeedVector()
+								((Movable) targetOverlappable).getTravelVector().getSpeedVector()
 										.getDirection(),
-								-((Movable) targetOverlappable)
-										.getSpeedVector().getSpeed()));
+								-((Movable) targetOverlappable).
+										getTravelVector().getSpeedVector().getSpeed()));
 				boundingBoxTarget = targetShape.getBounds();
 
 				if (boundingBoxOverlappable.intersects(boundingBoxTarget)) {
@@ -119,7 +119,7 @@ public class OverlapProcessorDefaultImpl implements OverlapProcessor {
 	private Shape intersectionComputation(Overlappable overlappable) {
 		if (overlappable instanceof Movable) {
 			Movable movable = (Movable) overlappable;
-			SpeedVector speedVector = movable.getSpeedVector();
+			SpeedVector speedVector = movable.getTravelVector().getSpeedVector();
 			SpeedVectorDefaultImpl oppositeSpeedVector = new SpeedVectorDefaultImpl(
 					speedVector.getDirection(), -1 * speedVector.getSpeed());
 			return IntersectTools.getIntersectShape(movable,

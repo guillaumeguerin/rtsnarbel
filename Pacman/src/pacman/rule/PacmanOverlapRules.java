@@ -15,6 +15,7 @@ import pacman.entity.Ghost;
 import pacman.entity.Jail;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
+import pacman.entity.Princess;
 import pacman.entity.SuperPacgum;
 import pacman.entity.TeleportPairOfPoints;
 
@@ -134,4 +135,5 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 			endOfGame.setValue(true);
 		}
 	}
+
 }

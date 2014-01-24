@@ -5,6 +5,8 @@ import gameframework.base.MoveStrategy;
 import gameframework.base.MoveStrategyDefaultImpl;
 import gameframework.base.SpeedVector;
 import gameframework.base.SpeedVectorDefaultImpl;
+import gameframework.base.TravelVector;
+import gameframework.base.TravelVectorDefaultImpl;
 
 public class GameMovableDriverDefaultImpl implements GameMovableDriver {
 	protected MoveBlockerChecker moveBlockerChecker;
@@ -23,21 +25,24 @@ public class GameMovableDriverDefaultImpl implements GameMovableDriver {
 		moveBlockerChecker = obst;
 	}
 
-	public SpeedVector getSpeedVector(Movable m) {
-		SpeedVector possibleSpeedVector;
+	public TravelVector getTravelVector(Movable m) {
+		TravelVector possibleSpeedVector;
 
-		possibleSpeedVector = moveStrategy.getSpeedVector();
+		possibleSpeedVector = moveStrategy.getTravelVector();
 		if (moveBlockerChecker.moveValidation(m, possibleSpeedVector)) {
+			//System.out.println("nouveau vector");
 			return possibleSpeedVector;
 		}
 
 		// If the strategy did not provide a valid vector, try to keep the
 		// current vector.
-		possibleSpeedVector = m.getSpeedVector();
+		possibleSpeedVector = m.getTravelVector();
+		
 		if (moveBlockerChecker.moveValidation(m, possibleSpeedVector)) {
+			//System.out.println("TOTO");
 			return possibleSpeedVector;
 		}
 
-		return SpeedVectorDefaultImpl.createNullVector();
+		return TravelVectorDefaultImpl.createNullVector();
 	}
 }

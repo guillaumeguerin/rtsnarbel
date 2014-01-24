@@ -13,6 +13,8 @@ public interface SpeedVector extends Cloneable {
 	public void setDirection(Point p);
 
 	public void setSpeed(int i);
-
+	
 	public Object clone();
+	
+	public void printSpeedValues();
 }
