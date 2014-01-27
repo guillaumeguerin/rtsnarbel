@@ -3,6 +3,7 @@ package soldiers.soldier;
 public abstract class SoldierAbstract implements Soldier {
 	protected String name;
 	protected float healthPoints;
+	protected float totalHealthPoints;
 	protected float force;
 
 	public SoldierAbstract(String nom, float healthPoints, float force) {
@@ -19,6 +20,10 @@ public abstract class SoldierAbstract implements Soldier {
 		return healthPoints;
 	}
 
+	public float getTotalHealthPoints() {
+		return totalHealthPoints;
+	}
+	
 	public boolean alive() {
 		return getHealthPoints() > 0;
 	}

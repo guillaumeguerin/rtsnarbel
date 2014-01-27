@@ -2,6 +2,8 @@ package pacman;
 
 import gameframework.base.MoveStrategyKeyboard;
 import gameframework.base.MoveStrategyRandom;
+import gameframework.extended.MoveStrategyKeyboardStop;
+import gameframework.extended.MoveStrategyMouseStop;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
 import gameframework.game.GameConfig;
@@ -22,6 +24,8 @@ import pacman.entity.Ghost;
 import pacman.entity.Grass;
 import pacman.entity.House;
 import pacman.entity.Jail;
+import pacman.entity.Knight;
+import pacman.entity.KnightBlue;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
@@ -31,6 +35,8 @@ import pacman.entity.Water;
 import pacman.rule.GhostMovableDriver;
 import pacman.rule.PacmanMoveBlockers;
 import pacman.rule.PacmanOverlapRules;
+import soldiers.soldier.Horseman;
+import soldiers.soldier.InfantryMan;
 
 public class GameLevelOne extends GameLevelDefaultImpl {
 	Canvas canvas;
@@ -134,16 +140,26 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		
 		
 		// Pacman definition and inclusion in the universe
-		Pacman myPac = new Pacman(canvas);
+		Knight myPac = new Knight(canvas, "images/knight2.png", new InfantryMan("toto"));
+		//KnightBlue myPac = new KnightBlue(canvas);
 		GameMovableDriverDefaultImpl pacDriver = new GameMovableDriverDefaultImpl();
-		MoveStrategyKeyboard keyStr = new MoveStrategyKeyboard();
+		MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();
 		pacDriver.setStrategy(keyStr);
 		pacDriver.setmoveBlockerChecker(moveBlockerChecker);
 		canvas.addKeyListener(keyStr);
+		//canvas.addMouseListener(keyStr);
 		myPac.setDriver(pacDriver);
 		myPac.setPosition(new Point(14 * SPRITE_SIZE, 17 * SPRITE_SIZE));
 		universe.addGameEntity(myPac);
 
+		Knight myPac2 = new Knight(canvas, "images/knight1.png", new Horseman("James Bond"));
+		myPac2.setPosition(new Point(17 * SPRITE_SIZE, 17 * SPRITE_SIZE));
+		universe.addGameEntity(myPac2);
+		
+		Knight myPac3 = new Knight(canvas, "images/princess1.png", new Horseman("Peach"));
+		myPac3.setPosition(new Point(15 * SPRITE_SIZE, 16 * SPRITE_SIZE));
+		universe.addGameEntity(myPac3);
+		
 		// Ghosts definition and inclusion in the universe
 		Ghost myGhost;
 		for (int t = 0; t < NUMBER_OF_GHOSTS; ++t) {

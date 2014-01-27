@@ -3,6 +3,7 @@ package soldiers.soldier;
 public interface Soldier {
 	public String getName();
 	public float getHealthPoints();
+	public float getTotalHealthPoints();
 	public boolean alive();
 	public void heal();
 	
