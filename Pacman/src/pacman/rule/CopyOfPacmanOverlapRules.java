@@ -13,15 +13,14 @@ import java.util.Vector;
 
 import pacman.entity.Ghost;
 import pacman.entity.Jail;
-import pacman.entity.NonPlayerEntity;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
 import pacman.entity.TeleportPairOfPoints;
 
-public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
+public class CopyOfPacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 	protected GameUniverse universe;
-	protected Vector<NonPlayerEntity> vNonPlayerEntity = new Vector<NonPlayerEntity>();
+	protected Vector<Ghost> vGhosts = new Vector<Ghost>();
 
 	// Time duration during which pacman is invulnerable and during which ghosts
 	// can be eaten (in number of cycles)
@@ -35,7 +34,7 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 	private int totalNbGums = 0;
 	private int nbEatenGums = 0;
 
-	public PacmanOverlapRules(Point pacPos, Point gPos,
+	public CopyOfPacmanOverlapRules(Point pacPos, Point gPos,
 			ObservableValue<Integer> life, ObservableValue<Integer> score,
 			ObservableValue<Boolean> endOfGame) {
 		pacManStartPos = (Point) pacPos.clone();
@@ -53,8 +52,8 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		this.totalNbGums = totalNbGums;
 	}
 
-	public void addNonPlayerEntity(NonPlayerEntity g) {
-		vNonPlayerEntity.addElement(g);
+	public void addGhost(Ghost g) {
+		vGhosts.addElement(g);
 	}
 
 	@Override
@@ -79,8 +78,8 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 				if (managePacmanDeath) {
 					life.setValue(life.getValue() - 1);
 					p.setPosition(pacManStartPos);
-					for (NonPlayerEntity nonPlayerEntity : vNonPlayerEntity) {
-						nonPlayerEntity.setPosition(ghostStartPos);
+					for (Ghost ghost : vGhosts) {
+						ghost.setPosition(ghostStartPos);
 					}
 					managePacmanDeath = false;
 				}
@@ -118,8 +117,8 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		universe.removeGameEntity(spg);
 		pacgumEatenHandler();
 		p.setInvulnerable(INVULNERABLE_DURATION);
-		for (NonPlayerEntity nonPlayer : vNonPlayerEntity) {
-			nonPlayer.setAfraid(INVULNERABLE_DURATION);
+		for (Ghost ghost : vGhosts) {
+			ghost.setAfraid(INVULNERABLE_DURATION);
 		}
 	}
 

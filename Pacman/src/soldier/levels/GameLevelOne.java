@@ -140,7 +140,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			myGhost.setDriver(ghostDriv);
 			myGhost.setPosition(new Point(14 * SPRITE_SIZE, 15 * SPRITE_SIZE));
 			universe.addGameEntity(myGhost);
-			(overlapRules).addGhost(myGhost);
+			(overlapRules).addNonPlayerEntity(myGhost);
 		}
 
 

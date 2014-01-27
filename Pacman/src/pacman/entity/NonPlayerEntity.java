@@ -12,7 +12,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class Ghost extends NonPlayerEntity implements Drawable, GameEntity,
+public class NonPlayerEntity extends GameMovable implements Drawable, GameEntity,
 		Overlappable {
 	protected static DrawableImage image = null;
 	protected boolean movable = true;
@@ -22,7 +22,12 @@ public class Ghost extends NonPlayerEntity implements Drawable, GameEntity,
 	private final SpriteManagerDefaultImpl spriteManager;
 	public static final int RENDERING_SIZE = 32;
 
-	public Ghost(Canvas defaultCanvas) {
+	public NonPlayerEntity(){
+		spriteManager = null;
+	}
+	
+	
+	public NonPlayerEntity(Canvas defaultCanvas) {
 		spriteManager = new SpriteManagerDefaultImpl("images/ghost.gif",
 				defaultCanvas, RENDERING_SIZE, 6);
 		spriteManager.setTypes(

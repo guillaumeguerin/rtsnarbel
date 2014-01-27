@@ -22,6 +22,7 @@ import java.awt.Point;
 import pacman.entity.Castle;
 import pacman.entity.Ghost;
 import pacman.entity.Grass;
+import pacman.entity.Horse;
 import pacman.entity.House;
 import pacman.entity.Jail;
 import pacman.entity.Knight;
@@ -79,6 +80,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
 	public static final int NUMBER_OF_GHOSTS = 0;
+	public static final int NUMBER_OF_HORSES = 2;
 
 	@Override
 	protected void init() {
@@ -161,17 +163,17 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		universe.addGameEntity(myPac3);
 		
 		// Ghosts definition and inclusion in the universe
-		Ghost myGhost;
-		for (int t = 0; t < NUMBER_OF_GHOSTS; ++t) {
+		Horse myHorse;
+		for (int t = 0; t < NUMBER_OF_HORSES; ++t) {
 			GameMovableDriverDefaultImpl ghostDriv = new GhostMovableDriver();
 			MoveStrategyRandom ranStr = new MoveStrategyRandom();
 			ghostDriv.setStrategy(ranStr);
 			ghostDriv.setmoveBlockerChecker(moveBlockerChecker);
-			myGhost = new Ghost(canvas);
-			myGhost.setDriver(ghostDriv);
-			myGhost.setPosition(new Point(14 * SPRITE_SIZE, 15 * SPRITE_SIZE));
-			universe.addGameEntity(myGhost);
-			(overlapRules).addGhost(myGhost);
+			myHorse = new Horse(canvas);
+			myHorse.setDriver(ghostDriv);
+			myHorse.setPosition(new Point(14 * SPRITE_SIZE, 15 * SPRITE_SIZE));
+			universe.addGameEntity(myHorse);
+			(overlapRules).addNonPlayerEntity(myHorse);
 		}
 
 
