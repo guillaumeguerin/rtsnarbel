@@ -143,7 +143,7 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 	
 	public void overlapRule(Knight p, Horse h) {
-		System.out.println("Soldier is riding a horse !");
+		System.out.println(p.getName() + " is riding a horse !");
 		universe.removeGameEntity(h);
 		p.setSoldier(new Horseman(p.getName()));
 	}
