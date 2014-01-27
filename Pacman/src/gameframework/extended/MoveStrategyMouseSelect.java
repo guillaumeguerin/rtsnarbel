@@ -15,7 +15,7 @@ import java.awt.event.MouseEvent;
  * {@link MoveStrategy} which listens to the keyboard and answers new
  * {@link SpeedVector speed vectors} based on what the user typed.
  */
-public class MoveStrategyMouseStop extends MouseAdapter implements MoveStrategy {
+public class MoveStrategyMouseSelect extends MouseAdapter implements MoveStrategy {
 	protected SpeedVector speedVector = new SpeedVectorDefaultImpl(new Point(0,
 			0));
 
@@ -25,7 +25,7 @@ public class MoveStrategyMouseStop extends MouseAdapter implements MoveStrategy 
 
 	public void mousePressed(MouseEvent event) {
 		System.out.println("aaaaaaa " + event.getX()/GameConfig.SPRITE_SIZE + " " + event.getY()/GameConfig.SPRITE_SIZE);
-		//speedVector.setDirection(new Point(event.getX()/GameConfig.SPRITE_SIZE, event.getY()/GameConfig.SPRITE_SIZE));
+		speedVector.setDirection(new Point(event.getX()/GameConfig.SPRITE_SIZE, event.getY()/GameConfig.SPRITE_SIZE));
 	}
 	
 	/*public void mouseReleased(MouseEvent event) {

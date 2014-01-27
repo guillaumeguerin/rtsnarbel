@@ -135,7 +135,7 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 
 	public void overlapRule(Knight p, HealthPack hp) {
 		//score.setValue(score.getValue() + 1);
-		System.out.println("Healed !");
+		System.out.println(p.getName() + " is healed !");
 		if(p.getHealthPoints() != p.getTotalHealthPoints())
 			p.heal();
 		universe.removeGameEntity(hp);
