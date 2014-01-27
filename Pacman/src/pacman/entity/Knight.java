@@ -37,6 +37,10 @@ public class Knight extends GameMovable implements Drawable, GameEntity,
 		soldier = s;
 	}
 
+	public void setSoldier(Soldier s) {
+		soldier = s;
+	}	
+	
 	public void setInvulnerable(int timer) {
 		vulnerableTimer = timer;
 	}

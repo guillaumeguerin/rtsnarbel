@@ -12,12 +12,16 @@ import java.awt.Point;
 import java.util.Vector;
 
 import pacman.entity.Ghost;
+import pacman.entity.HealthPack;
+import pacman.entity.Horse;
 import pacman.entity.Jail;
+import pacman.entity.Knight;
 import pacman.entity.NonPlayerEntity;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
 import pacman.entity.TeleportPairOfPoints;
+import soldiers.soldier.Horseman;
 
 public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 	protected GameUniverse universe;
@@ -63,7 +67,7 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		super.applyOverlapRules(overlappables);
 	}
 
-	public void overlapRule(Pacman p, Ghost g) {
+	public void overlapRule(Knight p, NonPlayerEntity g) {
 		if (!p.isVulnerable()) {
 			if (g.isActive()) {
 				g.setAlive(false);
@@ -88,21 +92,21 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		}
 	}
 
-	public void overlapRule(Ghost g, SuperPacgum spg) {
+	public void overlapRule(NonPlayerEntity g, SuperPacgum spg) {
 	}
 
-	public void overlapRule(Ghost g, Pacgum spg) {
+	public void overlapRule(NonPlayerEntity g, Pacgum spg) {
 	}
 
-	public void overlapRule(Ghost g, TeleportPairOfPoints teleport) {
+	public void overlapRule(NonPlayerEntity g, TeleportPairOfPoints teleport) {
 		g.setPosition(teleport.getDestination());
 	}
 
-	public void overlapRule(Pacman p, TeleportPairOfPoints teleport) {
+	public void overlapRule(Knight p, TeleportPairOfPoints teleport) {
 		p.setPosition(teleport.getDestination());
 	}
 
-	public void overlapRule(Ghost g, Jail jail) {
+	public void overlapRule(NonPlayerEntity g, Jail jail) {
 		if (!g.isActive()) {
 			g.setAlive(true);
 			MoveStrategyRandom strat = new MoveStrategyRandom();
@@ -113,7 +117,7 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		}
 	}
 
-	public void overlapRule(Pacman p, SuperPacgum spg) {
+	public void overlapRule(Knight p, SuperPacgum spg) {
 		score.setValue(score.getValue() + 5);
 		universe.removeGameEntity(spg);
 		pacgumEatenHandler();
@@ -123,12 +127,27 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		}
 	}
 
-	public void overlapRule(Pacman p, Pacgum pg) {
+	public void overlapRule(Knight p, Pacgum pg) {
 		score.setValue(score.getValue() + 1);
 		universe.removeGameEntity(pg);
 		pacgumEatenHandler();
 	}
 
+	public void overlapRule(Knight p, HealthPack hp) {
+		//score.setValue(score.getValue() + 1);
+		System.out.println("Healed !");
+		if(p.getHealthPoints() != p.getTotalHealthPoints())
+			p.heal();
+		universe.removeGameEntity(hp);
+		//pacgumEatenHandler();
+	}
+	
+	public void overlapRule(Knight p, Horse h) {
+		System.out.println("Soldier is riding a horse !");
+		universe.removeGameEntity(h);
+		p.setSoldier(new Horseman(p.getName()));
+	}
+	
 	private void pacgumEatenHandler() {
 		nbEatenGums++;
 		if (nbEatenGums >= totalNbGums) {
