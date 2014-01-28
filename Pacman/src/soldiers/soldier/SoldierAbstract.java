@@ -26,12 +26,14 @@ Overlappable {
 	protected float healthPoints;
 	protected float totalHealthPoints;
 	protected float force;
+	protected int IDTeam;
 
-	public SoldierAbstract(String nom, float healthPoints, float force, Canvas defaultCanvas, String image) {
+	public SoldierAbstract(String nom, float healthPoints, float force, Canvas defaultCanvas, String image, int IDTeam) {
 		this.name = nom;
 		this.healthPoints = healthPoints;
 		this.force = force;
 		
+		this.IDTeam = IDTeam;
 		spriteManager = new SpriteManagerDefaultImpl(image,
 				defaultCanvas, RENDERING_SIZE, 3);
 		spriteManager.setTypes(
@@ -66,12 +68,17 @@ Overlappable {
 
 	public float strike() {
 		return alive() ? force : 0; 
-	} 
+	}
 	
 	
 	public void setInvulnerable(int timer) {
 		vulnerableTimer = timer;
 	}
+	
+	public int getTeam() {
+		return IDTeam;
+	}
+	
 
 	public boolean isVulnerable() {
 		return (vulnerableTimer <= 0);

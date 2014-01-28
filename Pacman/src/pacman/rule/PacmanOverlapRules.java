@@ -4,13 +4,16 @@ import gameframework.base.ObservableValue;
 import gameframework.base.MoveStrategyRandom;
 import gameframework.base.MoveStrategyStraightLine;
 import gameframework.base.Overlap;
+import gameframework.game.GameEntity;
 import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameUniverse;
 import gameframework.game.OverlapRulesApplierDefaultImpl;
 
 import java.awt.Point;
+import java.util.Random;
 import java.util.Vector;
 
+import pacman.GameLevelOne;
 import pacman.entity.Ghost;
 import pacman.entity.HealthPack;
 import pacman.entity.Horse;
@@ -21,7 +24,6 @@ import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
 import pacman.entity.TeleportPairOfPoints;
-import soldiers.soldier.Horseman;
 import soldiers.soldier.*;
 
 public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
@@ -134,41 +136,67 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		pacgumEatenHandler();
 	}
 
-	/*public void overlapRule(Knight p, HealthPack hp) {
-		//score.setValue(score.getValue() + 1);
-		System.out.println(p.getName() + " is healed !");
-		if(p.getHealthPoints() != p.getTotalHealthPoints())
-			p.heal();
-		universe.removeGameEntity(hp);
-		//pacgumEatenHandler();
-	}*/
-	
-	/*public void overlapRule(Knight p, Horse h) {
-		System.out.println(p.getName() + " is riding a horse !");
-		universe.removeGameEntity(h);
-		p.setSoldier(new Horseman(p.getName()));
-	}*/ // Delete it
-	
 	public void overlapRule(InfantryMan s, HealthPack hp) {
 		System.out.println(s.getName() + " is healed !");
 		if(s.getHealthPoints() != s.getTotalHealthPoints())
 			s.heal();
 		universe.removeGameEntity(hp);
 	}
-	
+
 	public void overlapRule(Horseman s, HealthPack hp) {
 		System.out.println(s.getName() + " is healed !");
 		if(s.getHealthPoints() != s.getTotalHealthPoints())
 			s.heal();
 		universe.removeGameEntity(hp);
 	}
-	
+
 	public void overlapRule(InfantryMan s, Horse h){
 		System.out.println(s.getName() + " is riding a horse !");
 		universe.removeGameEntity(h);
 		//TODO appeler la fonction pour qu'il devienne un horseman
 	}
+
+	public void overlapRule(InfantryMan p1, InfantryMan p2) {
+		battle(p1, p2);
+	}
 	
+	public void overlapRule(InfantryMan p1, Horseman p2) {
+		battle(p1, p2);
+	}
+	
+	public void overlapRule(Horseman p1, Horseman p2) {
+		battle(p1, p2);
+	}
+	
+	public void battle(SoldierAbstract p1, SoldierAbstract p2) {
+		Random generator = new Random();
+		if(p1.getTeam() != p2.getTeam()) {
+			System.out.println(p1.getName() + " is fighting " + p2.getName() + " !");
+			p2.parry(p1.strike());
+			p1.parry(p2.strike());
+			if(!p1.alive()) {
+				if(p1.getTeam() != 0) { // He is not in our team
+					GameLevelOne.NUMBER_OF_ENEMIES--;
+					life.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+				}
+				universe.removeGameEntity(p1);
+				System.out.println(p1.getName() + " got killed !");
+				GameLevelOne.addRandomHealthPack();
+			}
+			if(!p2.alive()) {
+				if(p2.getTeam() != 0) {
+					GameLevelOne.NUMBER_OF_ENEMIES--;
+					life.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+				}
+				universe.removeGameEntity(p2);
+				System.out.println(p2.getName() + " got killed !");
+				GameLevelOne.addRandomHealthPack();
+			}
+		}
+		else
+			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");
+	}
+
 	private void pacgumEatenHandler() {
 		nbEatenGums++;
 		if (nbEatenGums >= totalNbGums) {

@@ -21,7 +21,7 @@ public interface Game {
 
 	public ObservableValue<Integer>[] score();
 
-	public ObservableValue<Integer>[] life();
+	public ObservableValue<Integer>[] enemy();
 
 	public ObservableValue<Boolean> endOfGame();
 }

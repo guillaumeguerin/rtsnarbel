@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import soldier.*; 
 import soldiers.soldier.ArmedUnit;
 import soldiers.soldier.ArmedUnitSoldier;
 import soldiers.soldier.ArmedUnitSquad;
