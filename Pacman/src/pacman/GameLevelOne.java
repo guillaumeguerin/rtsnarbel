@@ -3,12 +3,13 @@ package pacman;
 import gameframework.base.MoveStrategyKeyboard;
 import gameframework.base.MoveStrategyRandom;
 import gameframework.extended.MoveStrategyKeyboardStop;
-import gameframework.extended.MoveStrategyMouseStop;
+import gameframework.extended.MoveStrategyMouseSelect;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
 import gameframework.game.GameConfig;
 import gameframework.game.GameLevelDefaultImpl;
 import gameframework.game.GameMovableDriverDefaultImpl;
+import gameframework.game.GameMovableMouseDriverDefaultImpl;
 import gameframework.game.GameUniverseDefaultImpl;
 import gameframework.game.GameUniverseViewPortDefaultImpl;
 import gameframework.game.MoveBlockerChecker;
@@ -28,6 +29,7 @@ import pacman.entity.Horse;
 import pacman.entity.House;
 import pacman.entity.Jail;
 import pacman.entity.Knight;
+import pacman.entity.MouseCursor;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
@@ -113,6 +115,19 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		// (east side to west side)
 		universe.addGameEntity(new TeleportPairOfPoints(new Point(27 * SPRITE_SIZE, 14 * SPRITE_SIZE), new Point(
 				2 * SPRITE_SIZE, 14 * SPRITE_SIZE)));
+		
+		
+		
+		
+		MouseCursor myMouse = new MouseCursor(canvas);
+		MoveStrategyMouseSelect mouse = new MoveStrategyMouseSelect();
+		GameMovableMouseDriverDefaultImpl mouseDriver = new GameMovableMouseDriverDefaultImpl();
+		mouseDriver.setStrategy(mouse);
+		//mouseDriver.setmoveBlockerChecker(moveBlockerChecker);
+		canvas.addMouseListener(mouse);
+		myMouse.setDriver(mouseDriver);
+		universe.addGameEntity(myMouse);
+		
 		
 		
 		// Pacman definition and inclusion in the universe

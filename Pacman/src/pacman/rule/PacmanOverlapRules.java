@@ -18,6 +18,7 @@ import pacman.entity.HealthPack;
 import pacman.entity.Horse;
 import pacman.entity.Jail;
 import pacman.entity.Knight;
+import pacman.entity.MouseCursor;
 import pacman.entity.NonPlayerEntity;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
@@ -178,6 +179,18 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		}
 		else
 			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");
+	}
+	
+	public void overlapRule(MouseCursor m, Knight p1) {
+		
+		m.setPosition(new Point(0,0));
+		if(p1.getTeam() == 0) {
+			if(p1.getSelected())
+				p1.setSelected(false);
+			else
+				p1.setSelected(true);
+		}
+
 	}
 	
 	private void pacgumEatenHandler() {

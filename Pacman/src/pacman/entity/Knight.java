@@ -24,6 +24,7 @@ public class Knight extends GameMovable implements Drawable, GameEntity,
 	protected boolean vulnerable = false;
 	protected int vulnerableTimer = 0;
 	protected Soldier soldier;
+	protected boolean selected = false;
 	
 	
 	public Knight(Canvas defaultCanvas, String image, Soldier s) {
@@ -40,6 +41,14 @@ public class Knight extends GameMovable implements Drawable, GameEntity,
 	public void setSoldier(Soldier s) {
 		soldier = s;
 	}	
+	
+	public void setSelected(boolean a) {
+		selected = a;
+	}
+	
+	public boolean getSelected() {
+		return selected;
+	}
 	
 	public void setInvulnerable(int timer) {
 		vulnerableTimer = timer;
@@ -75,6 +84,10 @@ public class Knight extends GameMovable implements Drawable, GameEntity,
 
 		drawLifeBar(g, 3);
 		
+		if(selected) {
+			g.setColor(Color.yellow);
+			g.drawRect(getPosition().x, getPosition().y, GameConfig.SPRITE_SIZE, GameConfig.SPRITE_SIZE);
+		}
 	}
 
 	public void drawLifeBar(Graphics g, int ratio) {
@@ -93,6 +106,11 @@ public class Knight extends GameMovable implements Drawable, GameEntity,
 				vulnerableTimer--;
 			}
 		}
+	}
+	
+	public void oneStepMove() {
+		if(selected)
+			super.oneStepMove();
 	}
 
 	public Rectangle getBoundingBox() {

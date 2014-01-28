@@ -4,6 +4,8 @@ import gameframework.base.ObservableValue;
 
 import java.util.Date;
 
+import pacman.entity.MouseCursor;
+
 /**
  * To be implemented with respect to a specific game. Expected to initialize the
  * universe and the gameBoard
@@ -49,6 +51,7 @@ public abstract class GameLevelDefaultImpl extends Thread implements GameLevel {
 			start = new Date().getTime();
 			gameBoard.paint();
 			universe.allOneStepMoves();
+			// Mouse cursor
 			universe.processAllOverlaps();
 			try {
 				long sleepTime = MINIMUM_DELAY_BETWEEN_GAME_CYCLES
