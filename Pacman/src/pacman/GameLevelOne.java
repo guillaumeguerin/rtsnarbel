@@ -3,6 +3,7 @@ package pacman;
 import gameframework.base.MoveStrategyKeyboard;
 import gameframework.base.MoveStrategyRandom;
 import gameframework.extended.MoveStrategyKeyboardStop;
+import gameframework.extended.MoveStrategyMouseSelect;
 import gameframework.extended.MoveStrategyMouseStop;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
@@ -40,6 +41,8 @@ import pacman.rule.PacmanMoveBlockers;
 import pacman.rule.PacmanOverlapRules;
 import soldiers.soldier.Horseman;
 import soldiers.soldier.InfantryMan;
+import soldiers.soldier.Soldier;
+import soldiers.soldier.SoldierAbstract;
 
 public class GameLevelOne extends GameLevelDefaultImpl {
 	Canvas canvas;
@@ -114,23 +117,24 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		
 		
 		// Pacman definition and inclusion in the universe
-		Knight myPac = new Knight(canvas, "images/knight2.png", new InfantryMan("toto"));
-		//KnightBlue myPac = new KnightBlue(canvas);
+		SoldierAbstract myPac = new InfantryMan("toto", canvas, "images/knight2.png");
 		GameMovableDriverDefaultImpl pacDriver = new GameMovableDriverDefaultImpl();
 		MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();
+		//MoveStrategyMouseSelect mouseStr = new MoveStrategyMouseSelect();
 		pacDriver.setStrategy(keyStr);
+		//pacDriver.setStrategy(mouseStr);
 		pacDriver.setmoveBlockerChecker(moveBlockerChecker);
 		canvas.addKeyListener(keyStr);
-		//canvas.addMouseListener(keyStr);
+		//canvas.addMouseListener(mouseStr);
 		myPac.setDriver(pacDriver);
 		myPac.setPosition(new Point(14 * SPRITE_SIZE, 17 * SPRITE_SIZE));
 		universe.addGameEntity(myPac);
 
-		Knight myPac2 = new Knight(canvas, "images/knight1.png", new Horseman("James Bond"));
+		SoldierAbstract myPac2 = new Horseman("James Bond", canvas, "images/knight1.png");
 		myPac2.setPosition(new Point(17 * SPRITE_SIZE, 17 * SPRITE_SIZE));
 		universe.addGameEntity(myPac2);
 		
-		Knight myPac3 = new Knight(canvas, "images/princess1.png", new Horseman("Peach"));
+		SoldierAbstract myPac3 =  new Horseman("Peach", canvas, "images/princess1.png");
 		myPac3.setPosition(new Point(15 * SPRITE_SIZE, 16 * SPRITE_SIZE));
 		universe.addGameEntity(myPac3);
 		

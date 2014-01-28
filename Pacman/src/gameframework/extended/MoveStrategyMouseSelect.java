@@ -22,12 +22,14 @@ public class MoveStrategyMouseSelect extends MouseAdapter implements MoveStrateg
 	public SpeedVector getSpeedVector() {
 		return speedVector;
 	}
-
+// javadoc7 : event.getButton return int >> 0 = nobouton, 1 = bouton1(gauche), 2 = bouton2(molette), 3 = bouton3(droit)
 	public void mousePressed(MouseEvent event) {
-		System.out.println("aaaaaaa " + event.getX()/GameConfig.SPRITE_SIZE + " " + event.getY()/GameConfig.SPRITE_SIZE);
-		speedVector.setDirection(new Point(event.getX()/GameConfig.SPRITE_SIZE, event.getY()/GameConfig.SPRITE_SIZE));
+		if(event.getButton() == 3){
+			System.out.println("aaaaaaa " + event.getX()/GameConfig.SPRITE_SIZE + " " + event.getY()/GameConfig.SPRITE_SIZE);
+			speedVector.setDirection(new Point(event.getX()/GameConfig.SPRITE_SIZE, event.getY()/GameConfig.SPRITE_SIZE));
+		}
 	}
-	
+
 	/*public void mouseReleased(MouseEvent event) {
 		speedVector.setDirection(new Point(0,0));
 	}*/

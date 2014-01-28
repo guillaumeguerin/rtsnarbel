@@ -22,6 +22,7 @@ import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
 import pacman.entity.TeleportPairOfPoints;
 import soldiers.soldier.Horseman;
+import soldiers.soldier.*;
 
 public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 	protected GameUniverse universe;
@@ -133,19 +134,39 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		pacgumEatenHandler();
 	}
 
-	public void overlapRule(Knight p, HealthPack hp) {
+	/*public void overlapRule(Knight p, HealthPack hp) {
 		//score.setValue(score.getValue() + 1);
 		System.out.println(p.getName() + " is healed !");
 		if(p.getHealthPoints() != p.getTotalHealthPoints())
 			p.heal();
 		universe.removeGameEntity(hp);
 		//pacgumEatenHandler();
-	}
+	}*/
 	
-	public void overlapRule(Knight p, Horse h) {
+	/*public void overlapRule(Knight p, Horse h) {
 		System.out.println(p.getName() + " is riding a horse !");
 		universe.removeGameEntity(h);
 		p.setSoldier(new Horseman(p.getName()));
+	}*/ // Delete it
+	
+	public void overlapRule(InfantryMan s, HealthPack hp) {
+		System.out.println(s.getName() + " is healed !");
+		if(s.getHealthPoints() != s.getTotalHealthPoints())
+			s.heal();
+		universe.removeGameEntity(hp);
+	}
+	
+	public void overlapRule(Horseman s, HealthPack hp) {
+		System.out.println(s.getName() + " is healed !");
+		if(s.getHealthPoints() != s.getTotalHealthPoints())
+			s.heal();
+		universe.removeGameEntity(hp);
+	}
+	
+	public void overlapRule(InfantryMan s, Horse h){
+		System.out.println(s.getName() + " is riding a horse !");
+		universe.removeGameEntity(h);
+		//TODO appeler la fonction pour qu'il devienne un horseman
 	}
 	
 	private void pacgumEatenHandler() {
