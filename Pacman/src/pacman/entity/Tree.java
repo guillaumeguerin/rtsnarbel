@@ -26,7 +26,7 @@ public class Tree implements Drawable, MoveBlocker, GameEntity {
 				null);
 	}
 
-	public Point getPos() {
+	public Point getPosition() {
 		return (new Point(x, y));
 	}
 
