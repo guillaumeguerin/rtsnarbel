@@ -22,6 +22,7 @@ import java.awt.Point;
 import java.util.Random;
 
 import pacman.entity.Castle;
+import pacman.entity.EnemyKnight;
 import pacman.entity.Ghost;
 import pacman.entity.Grass;
 import pacman.entity.HealthPack;
@@ -143,14 +144,19 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		myPac.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
 		universe.addGameEntity(myPac);
 		
+		Knight myPac4 = new Knight(canvas, "images/knight2.png", new InfantryMan("James Bond", 0));
+		myPac4.setDriver(pacDriver);
+		myPac4.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 4) * SPRITE_SIZE, (GameConfig.NB_ROWS -8) * SPRITE_SIZE));
+		universe.addGameEntity(myPac4);
+		
 		
 		
 		/* Enemies */
 
-		Knight enemy;
+		EnemyKnight enemy;
 		
 		for(int i=0; i< NUMBER_OF_ENEMIES; i++) {
-			enemy = new Knight(canvas, "images/knight1.png", new InfantryMan("Enemy " + (i+1), 1));
+			enemy = new EnemyKnight(canvas, "images/knight1.png", new InfantryMan("Enemy " + (i+1), 1));
 			Point pos = new Point((generator.nextInt(GameConfig.NB_ROWS -2)+1) * SPRITE_SIZE, ((generator.nextInt(GameConfig.NB_COLUMNS/2)-2)+1) * SPRITE_SIZE);
 			if(pos.x <1)
 				pos.x = 1 * SPRITE_SIZE;
@@ -161,7 +167,9 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			MoveStrategyRandom ranStr = new MoveStrategyRandom();
 			enemyDriv.setStrategy(ranStr);
 			enemyDriv.setmoveBlockerChecker(moveBlockerChecker);
+			enemy.setDriver(enemyDriv);
 			universe.addGameEntity(enemy);
+			(overlapRules).addNonPlayerEntity(enemy);
 		}
 		
 		 

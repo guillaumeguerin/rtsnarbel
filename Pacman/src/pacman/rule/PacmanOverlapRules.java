@@ -13,6 +13,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import pacman.GameLevelOne;
+import pacman.entity.EnemyKnight;
 import pacman.entity.Ghost;
 import pacman.entity.HealthPack;
 import pacman.entity.Horse;
@@ -177,11 +178,35 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 				GameLevelOne.addRandomHealthPack();
 			}
 		}
-		else
-			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");
+
+	}
+	
+	public void overlapRule(Knight p1, EnemyKnight p2) {
+		System.out.println(p1.getName() + " is fighting " + p2.getName() + " !");
+		p2.parry(p1.strike());
+		p1.parry(p2.strike());
+		if(!p1.alive()) {
+			if(p1.getTeam() != 0) { // He is not in our team
+				GameLevelOne.NUMBER_OF_ENEMIES--;
+				life.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+			}
+			universe.removeGameEntity(p1);
+			System.out.println(p1.getName() + " got killed !");
+			GameLevelOne.addRandomHealthPack();
+		}
+		if(!p2.alive()) {
+			if(p2.getTeam() != 0) {
+				GameLevelOne.NUMBER_OF_ENEMIES--;
+				life.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+			}
+			universe.removeGameEntity(p2);
+			System.out.println(p2.getName() + " got killed !");
+			GameLevelOne.addRandomHealthPack();
+		}
 	}
 	
 	public void overlapRule(MouseCursor m, Knight p1) {
+		//System.out.println("mouse over " + p1.getName() + " !");
 		
 		m.setPosition(new Point(0,0));
 		if(p1.getTeam() == 0) {
@@ -190,7 +215,12 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 			else
 				p1.setSelected(true);
 		}
-
+		/*if(p1.getTeam() == 0)
+			if(!p1.getSelected())
+				p1.setSelected(true);
+			else
+				p1.setSelected(false);
+		*/
 	}
 	
 	private void pacgumEatenHandler() {
