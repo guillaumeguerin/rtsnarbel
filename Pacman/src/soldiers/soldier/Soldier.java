@@ -1,6 +1,7 @@
 package soldiers.soldier;
 
 public interface Soldier {
+	public int getTeam();
 	public String getName();
 	public float getHealthPoints();
 	public float getTotalHealthPoints();

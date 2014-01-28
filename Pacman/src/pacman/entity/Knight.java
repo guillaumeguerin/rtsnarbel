@@ -127,4 +127,8 @@ public class Knight extends GameMovable implements Drawable, GameEntity,
 	public float getTotalHealthPoints() {
 		return soldier.getTotalHealthPoints();
 	}
+
+	public int getTeam() {
+		return soldier.getTeam();
+	}
 }

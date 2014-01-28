@@ -11,10 +11,10 @@ import java.util.Date;
 
 public abstract class GameLevelDefaultImpl extends Thread implements GameLevel {
 	private static final int MINIMUM_DELAY_BETWEEN_GAME_CYCLES = 100;
-	protected GameUniverse universe;
+	protected static GameUniverse universe;
 	protected GameUniverseViewPort gameBoard;
 	protected ObservableValue<Integer> score[];
-	protected ObservableValue<Integer> life[];
+	protected ObservableValue<Integer> enemy[];
 	protected ObservableValue<Boolean> endOfGame;
 
 	boolean stopGameLoop;
@@ -25,7 +25,7 @@ public abstract class GameLevelDefaultImpl extends Thread implements GameLevel {
 	public GameLevelDefaultImpl(Game g) {
 		this.g = g;
 		this.score = g.score();
-		this.life = g.life();
+		this.enemy = g.enemy();
 	}
 
 	@Override

@@ -4,12 +4,12 @@ import soldiers.soldier.*;
 import soldiers.weapon.*;
 
 public class MiddleAgeFactory implements AgeFactory {
-	public SoldierAbstract getSimpleSoldier(String name) {
-		return new InfantryMan(name);
+	public SoldierAbstract getSimpleSoldier(String name, int IDteam) {
+		return new InfantryMan(name, IDteam);
 	}
  
-	public SoldierAbstract getComplexSoldier(String name) {
-		return new Horseman(name);
+	public SoldierAbstract getComplexSoldier(String name, int IDteam) {
+		return new Horseman(name, IDteam);
 	}
  
 	public Soldier getDefensiveWeapon(Soldier s) {

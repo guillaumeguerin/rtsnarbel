@@ -21,6 +21,8 @@ import java.util.Observer;
 
 import javax.swing.JPanel;
 
+import pacman.GameLevelOne;
+
 /**
  * Create a basic game application with menus and displays of lives and score
  */
@@ -28,12 +30,12 @@ public class GameDefaultImpl implements Game, Observer {
 	protected static final int NB_ROWS = GameConfig.NB_ROWS;
 	protected static final int NB_COLUMNS = GameConfig.NB_COLUMNS;
 	protected static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
-	public static final int MAX_NUMBER_OF_PLAYER = GameConfig.MAX_NUMBER_OF_PLAYER;
+	public static final int NUMBER_OF_ENEMIES = GameLevelOne.NUMBER_OF_ENEMIES;
 	public static final int NUMBER_OF_LIVES = GameConfig.NUMBER_OF_LIVES;
 
 	protected CanvasDefaultImpl defaultCanvas = null;
-	protected ObservableValue<Integer> score[] = new ObservableValue[MAX_NUMBER_OF_PLAYER];
-	protected ObservableValue<Integer> life[] = new ObservableValue[MAX_NUMBER_OF_PLAYER];
+	protected ObservableValue<Integer> score[] = new ObservableValue[NUMBER_OF_ENEMIES];
+	protected ObservableValue<Integer> enemy[] = new ObservableValue[NUMBER_OF_ENEMIES];
 
 	// initialized before each level
 	protected ObservableValue<Boolean> endOfGame = null;
@@ -44,20 +46,20 @@ public class GameDefaultImpl implements Game, Observer {
 	protected int levelNumber;
 	protected ArrayList<GameLevel> gameLevels;
 
-	protected Label lifeText, scoreText;
+	protected Label enemyText, scoreText;
 	protected Label information;
 	protected Label informationValue;
-	protected Label lifeValue, scoreValue;
+	protected Label enemyValue, scoreValue;
 	protected Label currentLevel;
 	protected Label currentLevelValue;
 
 	public GameDefaultImpl() {
-		for (int i = 0; i < MAX_NUMBER_OF_PLAYER; ++i) {
+		for (int i = 0; i < NUMBER_OF_ENEMIES; ++i) {
 			score[i] = new ObservableValue<Integer>(0);
-			life[i] = new ObservableValue<Integer>(0);
+			enemy[i] = new ObservableValue<Integer>(0);
 		}
-		lifeText = new Label("Soldiers:");
-		scoreText = new Label("Score:");
+		enemyText = new Label("Enemy soldiers remaining :");
+		scoreText = new Label("Soldiers in my Team :");
 		information = new Label("State:");
 		informationValue = new Label("Playing");
 		currentLevel = new Label("Level:");
@@ -143,11 +145,11 @@ public class GameDefaultImpl implements Game, Observer {
 		JPanel c = new JPanel();
 		GridBagLayout layout = new GridBagLayout();
 		c.setLayout(layout);
-		lifeValue = new Label(Integer.toString(life[0].getValue()));
+		enemyValue = new Label(Integer.toString(enemy[0].getValue()));
 		scoreValue = new Label(Integer.toString(score[0].getValue()));
 		currentLevelValue = new Label(Integer.toString(levelNumber));
-		c.add(lifeText);
-		c.add(lifeValue);
+		c.add(enemyText);
+		c.add(enemyValue);
 		c.add(scoreText);
 		c.add(scoreValue);
 		c.add(currentLevel);
@@ -162,10 +164,10 @@ public class GameDefaultImpl implements Game, Observer {
 	}
 
 	public void start() {
-		for (int i = 0; i < MAX_NUMBER_OF_PLAYER; ++i) {
+		for (int i = 0; i < NUMBER_OF_ENEMIES; ++i) {
 			score[i].addObserver(this);
-			life[i].addObserver(this);
-			life[i].setValue(NUMBER_OF_LIVES);
+			enemy[i].addObserver(this);
+			enemy[i].setValue(NUMBER_OF_ENEMIES);
 			score[i].setValue(0);
 		}
 		levelNumber = 0;
@@ -210,8 +212,8 @@ public class GameDefaultImpl implements Game, Observer {
 		return score;
 	}
 
-	public ObservableValue<Integer>[] life() {
-		return life;
+	public ObservableValue<Integer>[] enemy() {
+		return enemy;
 	}
 
 	public ObservableValue<Boolean> endOfGame() {
@@ -230,11 +232,11 @@ public class GameDefaultImpl implements Game, Observer {
 				currentPlayedLevel.end();
 			}
 		} else {
-			for (ObservableValue<Integer> lifeObservable : life) {
-				if (o == lifeObservable) {
-					int lives = ((ObservableValue<Integer>) o).getValue();
-					lifeValue.setText(Integer.toString(lives));
-					if (lives == 0) {
+			for (ObservableValue<Integer> enemyObservable : enemy) {
+				if (o == enemyObservable) {
+					int enemies = ((ObservableValue<Integer>) o).getValue();
+					enemyValue.setText(Integer.toString(enemies));
+					if (enemies == 0) {
 						informationValue.setText("Defeat");
 						currentPlayedLevel.interrupt();
 						currentPlayedLevel.end();
@@ -251,4 +253,5 @@ public class GameDefaultImpl implements Game, Observer {
 			}
 		}
 	}
+
 }

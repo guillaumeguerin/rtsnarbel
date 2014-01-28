@@ -1,5 +1,7 @@
 package pacman;
 import gameframework.game.GameConfig;
+
+import java.awt.Point;
 import java.util.Random;
 
 public class GameMap {
@@ -65,13 +67,15 @@ public class GameMap {
 		for(int i=0; i<NB_HOUSES; i++) {
 			newMap[generator.nextInt(GameConfig.NB_ROWS)][generator.nextInt(GameConfig.NB_COLUMNS)] = HOUSE; 
 		}
-		for(int i=0; i<NB_CASTLES; i++) {
+		/*for(int i=0; i<NB_CASTLES; i++) {
 			newMap[generator.nextInt(GameConfig.NB_ROWS)][generator.nextInt(GameConfig.NB_COLUMNS)] = CASTLE; 
-		}
+		}*/
+		
+		newMap[GameConfig.NB_COLUMNS -2][GameConfig.NB_ROWS/2] = CASTLE;
+		newMap[3][GameConfig.NB_ROWS/2] = CASTLE;
 		
 		return newMap;
 	}
-
 
 	
 }

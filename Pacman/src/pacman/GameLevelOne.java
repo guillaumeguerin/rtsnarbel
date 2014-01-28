@@ -28,7 +28,6 @@ import pacman.entity.Horse;
 import pacman.entity.House;
 import pacman.entity.Jail;
 import pacman.entity.Knight;
-import pacman.entity.KnightBlue;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
@@ -42,12 +41,15 @@ import soldiers.soldier.Horseman;
 import soldiers.soldier.InfantryMan;
 
 public class GameLevelOne extends GameLevelDefaultImpl {
-	Canvas canvas;
+	static Canvas canvas;
 
 	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
-	public static final int NUMBER_OF_GHOSTS = 0;
 	public static final int NUMBER_OF_HORSES = 2;
+	public static int NUMBER_OF_ENEMIES = 5;
+	public static int HEALTHPACK_DROP_RATE = 5;
 
+	
+	
 	@Override
 	protected void init() {
 		OverlapProcessor overlapProcessor = new OverlapProcessorDefaultImpl();
@@ -56,7 +58,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		moveBlockerChecker.setMoveBlockerRules(new PacmanMoveBlockers());
 		
 		PacmanOverlapRules overlapRules = new PacmanOverlapRules(new Point(14 * SPRITE_SIZE, 17 * SPRITE_SIZE),
-				new Point(14 * SPRITE_SIZE, 15 * SPRITE_SIZE), life[0], score[0], endOfGame);
+				new Point(14 * SPRITE_SIZE, 15 * SPRITE_SIZE), enemy[0], score[0], endOfGame);
 		overlapProcessor.setOverlapRules(overlapRules);
 
 		universe = new GameUniverseDefaultImpl(moveBlockerChecker, overlapProcessor);
@@ -99,7 +101,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		
 		Random generator = new Random();
 		for(int i=0; i<totalNbHealthPack; i++) {
-			universe.addGameEntity(new HealthPack(canvas, new Point(generator.nextInt(GameConfig.NB_ROWS) * SPRITE_SIZE, generator.nextInt(GameConfig.NB_COLUMNS)* SPRITE_SIZE)));
+			universe.addGameEntity(new HealthPack(canvas, new Point((generator.nextInt(GameConfig.NB_ROWS -2) +1) * SPRITE_SIZE, (generator.nextInt(GameConfig.NB_COLUMNS -2)+1) *  SPRITE_SIZE)));
 		}
 		
 		overlapRules.setTotalNbGums(totalNbGums);
@@ -114,7 +116,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		
 		
 		// Pacman definition and inclusion in the universe
-		Knight myPac = new Knight(canvas, "images/knight2.png", new InfantryMan("toto"));
+		Knight myPac = new Knight(canvas, "images/knight2.png", new InfantryMan("toto", 0));
 		//KnightBlue myPac = new KnightBlue(canvas);
 		GameMovableDriverDefaultImpl pacDriver = new GameMovableDriverDefaultImpl();
 		MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();
@@ -123,14 +125,33 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		canvas.addKeyListener(keyStr);
 		//canvas.addMouseListener(keyStr);
 		myPac.setDriver(pacDriver);
-		myPac.setPosition(new Point(14 * SPRITE_SIZE, 17 * SPRITE_SIZE));
+		myPac.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
 		universe.addGameEntity(myPac);
-
-		Knight myPac2 = new Knight(canvas, "images/knight1.png", new Horseman("James Bond"));
-		myPac2.setPosition(new Point(17 * SPRITE_SIZE, 17 * SPRITE_SIZE));
-		universe.addGameEntity(myPac2);
 		
-		Knight myPac3 = new Knight(canvas, "images/princess1.png", new Horseman("Peach"));
+		
+		
+		/* Enemies */
+
+		Knight enemy;
+		
+		for(int i=0; i< NUMBER_OF_ENEMIES; i++) {
+			enemy = new Knight(canvas, "images/knight1.png", new InfantryMan("Enemy " + (i+1), 1));
+			Point pos = new Point((generator.nextInt(GameConfig.NB_ROWS -2)+1) * SPRITE_SIZE, ((generator.nextInt(GameConfig.NB_COLUMNS/2)-2)+1) * SPRITE_SIZE);
+			if(pos.x <1)
+				pos.x = 1 * SPRITE_SIZE;
+			if(pos.y <1)
+				pos.y = 1 * SPRITE_SIZE;
+			enemy.setPosition(pos);
+			GameMovableDriverDefaultImpl enemyDriv = new GhostMovableDriver();
+			MoveStrategyRandom ranStr = new MoveStrategyRandom();
+			enemyDriv.setStrategy(ranStr);
+			enemyDriv.setmoveBlockerChecker(moveBlockerChecker);
+			universe.addGameEntity(enemy);
+		}
+		
+		 
+		
+		Knight myPac3 = new Knight(canvas, "images/princess1.png", new Horseman("Peach", 1));
 		myPac3.setPosition(new Point(15 * SPRITE_SIZE, 16 * SPRITE_SIZE));
 		universe.addGameEntity(myPac3);
 		
@@ -150,7 +171,16 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 
 	}
-
+	
+	public static void addRandomHealthPack() {
+		Random generator = new Random();
+		if(generator.nextInt(HEALTHPACK_DROP_RATE) == 0) {
+			Point p = new Point((generator.nextInt(GameConfig.NB_ROWS -2)+1)*GameConfig.NB_ROWS, (generator.nextInt(GameConfig.NB_COLUMNS -2)+1)*GameConfig.NB_COLUMNS);
+			HealthPack hp = new HealthPack(canvas, p);
+			universe.addGameEntity(hp);
+		}
+	}
+	
 	public GameLevelOne(Game g) {
 		super(g);
 		canvas = g.getCanvas();

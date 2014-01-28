@@ -12,6 +12,7 @@ public abstract class SoldierArmed<W extends Weapon> implements Soldier {
 	protected Soldier soldier;
 	protected W weapon;
 	private static final float WEARINESS_COEF = 0; // XXX temporarily inhibited
+	protected int IDteam;
 
 	SoldierArmed(Soldier s, W a) {
 		soldier = s;
@@ -54,5 +55,9 @@ public abstract class SoldierArmed<W extends Weapon> implements Soldier {
 		float force = soldier.strike() + weapon.getStrikeValue();
 		weapon.damageCompute(WEARINESS_COEF);
 		return force;
+	}
+	
+	public int getTeam() {
+		return IDteam;
 	}
 }

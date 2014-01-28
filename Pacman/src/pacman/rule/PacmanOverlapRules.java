@@ -9,8 +9,10 @@ import gameframework.game.GameUniverse;
 import gameframework.game.OverlapRulesApplierDefaultImpl;
 
 import java.awt.Point;
+import java.util.Random;
 import java.util.Vector;
 
+import pacman.GameLevelOne;
 import pacman.entity.Ghost;
 import pacman.entity.HealthPack;
 import pacman.entity.Horse;
@@ -142,10 +144,40 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		//pacgumEatenHandler();
 	}
 	
+	
 	public void overlapRule(Knight p, Horse h) {
 		System.out.println(p.getName() + " is riding a horse !");
 		universe.removeGameEntity(h);
-		p.setSoldier(new Horseman(p.getName()));
+		p.setSoldier(new Horseman(p.getName(), p.getTeam()));
+	}
+	
+	public void overlapRule(Knight p1, Knight p2) {
+		Random generator = new Random();
+		if(p1.getTeam() != p2.getTeam()) {
+			System.out.println(p1.getName() + " is fighting " + p2.getName() + " !");
+			p2.parry(p1.strike());
+			p1.parry(p2.strike());
+			if(!p1.alive()) {
+				if(p1.getTeam() != 0) { // He is not in our team
+					GameLevelOne.NUMBER_OF_ENEMIES--;
+					life.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+				}
+				universe.removeGameEntity(p1);
+				System.out.println(p1.getName() + " got killed !");
+				GameLevelOne.addRandomHealthPack();
+			}
+			if(!p2.alive()) {
+				if(p2.getTeam() != 0) {
+					GameLevelOne.NUMBER_OF_ENEMIES--;
+					life.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+				}
+				universe.removeGameEntity(p2);
+				System.out.println(p2.getName() + " got killed !");
+				GameLevelOne.addRandomHealthPack();
+			}
+		}
+		else
+			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");
 	}
 	
 	private void pacgumEatenHandler() {

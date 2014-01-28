@@ -5,11 +5,13 @@ public abstract class SoldierAbstract implements Soldier {
 	protected float healthPoints;
 	protected float totalHealthPoints;
 	protected float force;
+	protected int IDteam;
 
-	public SoldierAbstract(String nom, float healthPoints, float force) {
+	public SoldierAbstract(String nom, float healthPoints, float force, int IDteam) {
 		this.name = nom;
 		this.healthPoints = healthPoints;
 		this.force = force;
+		this.IDteam = IDteam;
 	}
 
 	public String getName() {
@@ -36,5 +38,9 @@ public abstract class SoldierAbstract implements Soldier {
 
 	public float strike() {
 		return alive() ? force : 0; 
-	} 
+	}
+	
+	public int getTeam() {
+		return IDteam;
+	}
 }
