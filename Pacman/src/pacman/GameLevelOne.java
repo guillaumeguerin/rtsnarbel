@@ -51,13 +51,13 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	public static int NUMBER_OF_ENEMIES = 5;
 	public static int HEALTHPACK_DROP_RATE = 5;
 
-	
+	static MoveBlockerChecker moveBlockerChecker;
 	
 	@Override
 	protected void init() {
 		OverlapProcessor overlapProcessor = new OverlapProcessorDefaultImpl();
 
-		MoveBlockerChecker moveBlockerChecker = new MoveBlockerCheckerDefaultImpl();
+		moveBlockerChecker = new MoveBlockerCheckerDefaultImpl();
 		moveBlockerChecker.setMoveBlockerRules(new PacmanMoveBlockers());
 		
 		PacmanOverlapRules overlapRules = new PacmanOverlapRules(new Point(14 * SPRITE_SIZE, 17 * SPRITE_SIZE),
@@ -187,5 +187,23 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		super(g);
 		canvas = g.getCanvas();
 	}
-
+	
+	public static void ridingAnHorseOMGOMGOMG(InfantryMan inf){
+		Horseman new_horseman = new Horseman(inf.getName(), canvas, "images/knight2.png",inf.getTeam());
+		new_horseman.setPosition(inf.getPosition());
+		GameMovableDriverDefaultImpl pacDriver = new GameMovableDriverDefaultImpl();
+		MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();
+		//MoveStrategyMouseSelect mouseStr = new MoveStrategyMouseSelect();
+		pacDriver.setStrategy(keyStr);
+		//pacDriver.setStrategy(mouseStr);
+		pacDriver.setmoveBlockerChecker(moveBlockerChecker);
+		canvas.addKeyListener(keyStr);
+		//canvas.addMouseListener(mouseStr);
+		new_horseman.setDriver(pacDriver);
+		
+		universe.addGameEntity(new_horseman);
+		
+		universe.removeGameEntity(inf);
+		
+	}
 }

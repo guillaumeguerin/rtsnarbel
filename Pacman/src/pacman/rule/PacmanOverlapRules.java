@@ -154,6 +154,7 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 		System.out.println(s.getName() + " is riding a horse !");
 		universe.removeGameEntity(h);
 		//TODO appeler la fonction pour qu'il devienne un horseman
+		GameLevelOne.ridingAnHorseOMGOMGOMG(s);
 	}
 
 	public void overlapRule(InfantryMan p1, InfantryMan p2) {

@@ -14,8 +14,8 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public abstract class SoldierAbstract extends GameMovable implements Soldier, Drawable, GameEntity,
-Overlappable {
+public abstract class SoldierAbstract extends GameMovable implements Soldier, Drawable, GameEntity, Overlappable {
+	
 	protected final SpriteManager spriteManager;
 	public static final int RENDERING_SIZE = 32;
 	protected boolean movable = true;
