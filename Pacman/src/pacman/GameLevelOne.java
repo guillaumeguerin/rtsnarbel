@@ -52,14 +52,14 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	public static int HEALTHPACK_DROP_RATE = 5;
 
 	static MoveBlockerChecker moveBlockerChecker;
-	
+
 	@Override
 	protected void init() {
 		OverlapProcessor overlapProcessor = new OverlapProcessorDefaultImpl();
 
 		moveBlockerChecker = new MoveBlockerCheckerDefaultImpl();
 		moveBlockerChecker.setMoveBlockerRules(new PacmanMoveBlockers());
-		
+
 		PacmanOverlapRules overlapRules = new PacmanOverlapRules(new Point(14 * SPRITE_SIZE, 17 * SPRITE_SIZE),
 				new Point(14 * SPRITE_SIZE, 15 * SPRITE_SIZE), enemy[0], score[0], endOfGame);
 		overlapProcessor.setOverlapRules(overlapRules);
@@ -73,7 +73,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		int totalNbGums = 0;
 		int totalNbHealthPack = 5;
 		int [][] tab = GameMap.createRandomMap();
-		
+
 		// Filling up the universe with basic non movable entities and inclusion in the universe
 		for (int i = 0; i < 31; ++i) {
 			for (int j = 0; j < 28; ++j) {
@@ -92,32 +92,25 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				if (tab[i][j] == 4) {
 					universe.addGameEntity(new Castle(canvas, j * SPRITE_SIZE, i * SPRITE_SIZE));
 				}
-				/*if (tab[i][j] == 7) {
-					universe.addGameEntity(new SuperPacgum(canvas, new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
-					totalNbGums++;
-				}*/
-				/*if (tab[i][j] == 8) {
-					universe.addGameEntity(new Jail(new Point(j * SPRITE_SIZE, i * SPRITE_SIZE)));
-				}*/
 			}
 		}
-		
+
 		Random generator = new Random();
 		for(int i=0; i<totalNbHealthPack; i++) {
-			universe.addGameEntity(new HealthPack(canvas, new Point((generator.nextInt(GameConfig.NB_ROWS -2) +1) * SPRITE_SIZE, (generator.nextInt(GameConfig.NB_COLUMNS -2)+1) *  SPRITE_SIZE)));
+			universe.addGameEntity(new HealthPack(canvas, new Point((generator.nextInt(GameConfig.NB_COLUMNS -2) +1) * SPRITE_SIZE, (generator.nextInt(GameConfig.NB_ROWS -2)+1) *  SPRITE_SIZE)));
 		}
-		
+
 		overlapRules.setTotalNbGums(totalNbGums);
 
 		// Two teleport points definition and inclusion in the universe
 		// (west side to east side)
-		universe.addGameEntity(new TeleportPairOfPoints(new Point(0 * SPRITE_SIZE, 14 * SPRITE_SIZE), new Point(
+		/*universe.addGameEntity(new TeleportPairOfPoints(new Point(0 * SPRITE_SIZE, 14 * SPRITE_SIZE), new Point(
 				25 * SPRITE_SIZE, 14 * SPRITE_SIZE)));
 		// (east side to west side)
 		universe.addGameEntity(new TeleportPairOfPoints(new Point(27 * SPRITE_SIZE, 14 * SPRITE_SIZE), new Point(
 				2 * SPRITE_SIZE, 14 * SPRITE_SIZE)));
-		
-		
+*/
+
 		// Pacman definition and inclusion in the universe
 		SoldierAbstract myPac = new InfantryMan("toto", canvas, "images/knight2.png", 0);
 		GameMovableDriverDefaultImpl pacDriver = new GameMovableDriverDefaultImpl();
@@ -131,18 +124,16 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		myPac.setDriver(pacDriver);
 		myPac.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
 		universe.addGameEntity(myPac);
-		
+
 		/* Enemies */
 
 		SoldierAbstract enemy;
-		
+
 		for(int i=0; i< NUMBER_OF_ENEMIES; i++) {
 			enemy = new Horseman("Enemy " + (i+1), canvas, "images/knight1.png", 1);
-			Point pos = new Point((generator.nextInt(GameConfig.NB_ROWS -2)+1) * SPRITE_SIZE, ((generator.nextInt(GameConfig.NB_COLUMNS/2)-2)+1) * SPRITE_SIZE);
-			if(pos.x <1)
-				pos.x = 1 * SPRITE_SIZE;
-			if(pos.y <1)
-				pos.y = 1 * SPRITE_SIZE;
+			Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
+			if(pos.getY()/SPRITE_SIZE < 1)
+				pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
 			enemy.setPosition(pos);
 			GameMovableDriverDefaultImpl enemyDriv = new GhostMovableDriver();
 			MoveStrategyRandom ranStr = new MoveStrategyRandom();
@@ -150,13 +141,13 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			enemyDriv.setmoveBlockerChecker(moveBlockerChecker);
 			universe.addGameEntity(enemy);
 		}
-		
-		 
-		
-		SoldierAbstract myPac3 = new Horseman("Peach", canvas, "images/princess1.png", 1);
+
+
+
+		SoldierAbstract myPac3 = new InfantryMan("Peach", canvas, "images/princess1.png", 1);
 		myPac3.setPosition(new Point(15 * SPRITE_SIZE, 16 * SPRITE_SIZE));
 		universe.addGameEntity(myPac3);
-		
+
 		// Horse definition and inclusion in the universe
 		Horse myHorse;
 		for (int t = 0; t < NUMBER_OF_HORSES; ++t) {
@@ -173,7 +164,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 
 	}
-	
+
 	public static void addRandomHealthPack() {
 		Random generator = new Random();
 		if(generator.nextInt(HEALTHPACK_DROP_RATE) == 0) {
@@ -182,13 +173,14 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			universe.addGameEntity(hp);
 		}
 	}
-	
+
 	public GameLevelOne(Game g) {
 		super(g);
 		canvas = g.getCanvas();
 	}
-	
+
 	public static void ridingAnHorseOMGOMGOMG(InfantryMan inf){
+
 		Horseman new_horseman = new Horseman(inf.getName(), canvas, "images/knight2.png",inf.getTeam());
 		new_horseman.setPosition(inf.getPosition());
 		GameMovableDriverDefaultImpl pacDriver = new GameMovableDriverDefaultImpl();
@@ -200,10 +192,10 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		canvas.addKeyListener(keyStr);
 		//canvas.addMouseListener(mouseStr);
 		new_horseman.setDriver(pacDriver);
-		
+
 		universe.addGameEntity(new_horseman);
-		
+
 		universe.removeGameEntity(inf);
-		
+
 	}
 }

@@ -73,13 +73,13 @@ public class Horse extends NonPlayerEntity implements Drawable, GameEntity,
 		}
 
 		if (tmp.getX() == -1) {
-			spriteType += "left";
+			spriteType += "right";
 		} else if (tmp.getY() == 1) {
 			spriteType += "down";
 		} else if (tmp.getY() == -1) {
 			spriteType += "up";
 		} else {
-			spriteType += "right";
+			spriteType += "left";
 		}
 
 		spriteManager.setType(spriteType);

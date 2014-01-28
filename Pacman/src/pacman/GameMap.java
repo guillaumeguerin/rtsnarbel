@@ -62,10 +62,10 @@ public class GameMap {
 		
 		Random generator = new Random();
 		for(int i=0; i<NB_TREES; i++) {
-			newMap[generator.nextInt(GameConfig.NB_ROWS)][generator.nextInt(GameConfig.NB_COLUMNS)] = TREE; 
+			newMap[(generator.nextInt(GameConfig.NB_ROWS -2))+1][(generator.nextInt(GameConfig.NB_COLUMNS-2))+1] = TREE; 
 		}
 		for(int i=0; i<NB_HOUSES; i++) {
-			newMap[generator.nextInt(GameConfig.NB_ROWS)][generator.nextInt(GameConfig.NB_COLUMNS)] = HOUSE; 
+			newMap[(generator.nextInt(GameConfig.NB_ROWS -2))+1][(generator.nextInt(GameConfig.NB_COLUMNS -2))+1] = HOUSE; 
 		}
 		/*for(int i=0; i<NB_CASTLES; i++) {
 			newMap[generator.nextInt(GameConfig.NB_ROWS)][generator.nextInt(GameConfig.NB_COLUMNS)] = CASTLE; 

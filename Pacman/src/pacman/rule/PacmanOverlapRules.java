@@ -151,24 +151,25 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 
 	public void overlapRule(InfantryMan s, Horse h){
-		System.out.println(s.getName() + " is riding a horse !");
-		universe.removeGameEntity(h);
-		//TODO appeler la fonction pour qu'il devienne un horseman
-		GameLevelOne.ridingAnHorseOMGOMGOMG(s);
+		if (s.getTeam()==0){
+			System.out.println(s.getName() + " is riding a horse !");
+			universe.removeGameEntity(h);
+			//TODO appeler la fonction pour qu'il devienne un horseman
+			GameLevelOne.ridingAnHorseOMGOMGOMG(s);
+		}
 	}
-
 	public void overlapRule(InfantryMan p1, InfantryMan p2) {
 		battle(p1, p2);
 	}
-	
+
 	public void overlapRule(InfantryMan p1, Horseman p2) {
 		battle(p1, p2);
 	}
-	
+
 	public void overlapRule(Horseman p1, Horseman p2) {
 		battle(p1, p2);
 	}
-	
+
 	public void battle(SoldierAbstract p1, SoldierAbstract p2) {
 		Random generator = new Random();
 		if(p1.getTeam() != p2.getTeam()) {
