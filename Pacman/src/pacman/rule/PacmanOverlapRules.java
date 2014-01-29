@@ -1,15 +1,9 @@
 package pacman.rule;
 
 import gameframework.base.ObservableValue;
-import gameframework.base.MoveStrategyRandom;
-import gameframework.base.MoveStrategyStraightLine;
-import gameframework.base.Overlap;
-import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameUniverse;
 import gameframework.game.OverlapRulesApplierDefaultImpl;
 
-import java.awt.Point;
-import java.util.Random;
 import java.util.Vector;
 
 import pacman.GameLevelOne;
