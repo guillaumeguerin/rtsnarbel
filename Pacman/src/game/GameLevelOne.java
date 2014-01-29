@@ -44,8 +44,8 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
 	public static final int NUMBER_OF_HORSES = 2;
-	public static int NUMBER_OF_ENEMIES = 2;
-	public static int NUMBER_OF_ALLIES = 1;
+	public static int NUMBER_OF_ENEMIES = 4;
+	public static int NUMBER_OF_ALLIES = 4;
 	public static int HEALTHPACK_DROP_RATE = 5;
 	public static int NB_PLAYER = 1;
 	private static int TOTAL_NB_HEALTH_PACK = 5;
@@ -119,11 +119,29 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			
 			
 			// Hero definition and inclusion in the universe.
-			SoldierAbstract myHero = new InfantryMan("toto", canvas, "images/knight2.png", 0);
+			/*SoldierAbstract myHero = new InfantryMan("toto", canvas, "images/knight2.png", 0);
 			myHero.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
 			MoveStrategyMouse mouseStr = new MoveStrategyMouse(myHero);			
 			canvas.addMouseListener(mouseStr);
-			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), mouseStr));			
+			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), mouseStr));			*/
+			
+			SoldierAbstract ally;
+			for(int i=0; i< NUMBER_OF_ALLIES; ++i) {
+				ally = new InfantryMan("Ally " + (i+1), canvas, "images/knight2.png", 0);
+				
+				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, ((((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2)+GameConfig.NB_ROWS/2) * SPRITE_SIZE);
+				ally.setPosition(pos);
+				
+				while( map [ ((int)ally.getPosition().getY()/SPRITE_SIZE) ][ ((int)ally.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
+					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/2 ) * SPRITE_SIZE);
+					ally.setPosition(pos);
+				}	
+				
+				MoveStrategyMouse mouseStr = new MoveStrategyMouse(ally);			
+				canvas.addMouseListener(mouseStr);
+				
+				universe.addGameEntity(initMovableState(ally, new GameMovableDriverDefaultImpl(), mouseStr));
+			}
 			
 			
 			
