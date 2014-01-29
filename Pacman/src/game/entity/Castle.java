@@ -1,4 +1,4 @@
-package pacman.entity;
+package game.entity;
 
 import gameframework.base.Drawable;
 import gameframework.base.DrawableImage;
@@ -10,13 +10,13 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class House implements Drawable, MoveBlocker, GameEntity {
+public class Castle implements Drawable, MoveBlocker, GameEntity {
 	protected static DrawableImage image = null;
 	int x, y;
 	public static final int RENDERING_SIZE = 32;
 
-	public House(Canvas defaultCanvas, int xx, int yy) {
-		image = new DrawableImage("images/house.gif", defaultCanvas);
+	public Castle(Canvas defaultCanvas, int xx, int yy) {
+		image = new DrawableImage("images/castle.gif", defaultCanvas);
 		x = xx;
 		y = yy;
 	}

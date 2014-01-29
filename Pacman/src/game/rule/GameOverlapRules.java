@@ -1,18 +1,18 @@
-package pacman.rule;
+package game.rule;
 
+import game.GameLevelOne;
+import game.entity.HealthPack;
+import game.entity.Horse;
+import game.entity.NonPlayerEntity;
 import gameframework.base.ObservableValue;
 import gameframework.game.GameUniverse;
 import gameframework.game.OverlapRulesApplierDefaultImpl;
 
 import java.util.Vector;
 
-import pacman.GameLevelOne;
-import pacman.entity.HealthPack;
-import pacman.entity.Horse;
-import pacman.entity.NonPlayerEntity;
 import soldiers.soldier.*;
 
-public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
+public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 	
 	protected GameUniverse universe;
 	protected Vector<NonPlayerEntity> vNonPlayerEntity = new Vector<NonPlayerEntity>();
@@ -21,7 +21,7 @@ public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
 	private final ObservableValue<Integer> nb_enemy;
 	private final ObservableValue<Boolean> endOfGame;
 
-	public PacmanOverlapRules(ObservableValue<Integer> nb_enemy, ObservableValue<Integer> score,
+	public GameOverlapRules(ObservableValue<Integer> nb_enemy, ObservableValue<Integer> score,
 			ObservableValue<Boolean> endOfGame) {
 		this.nb_enemy = nb_enemy;
 		this.score = score;

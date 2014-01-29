@@ -1,4 +1,4 @@
-package pacman.entity;
+package game.entity;
 
 import gameframework.base.Drawable;
 import gameframework.base.DrawableImage;

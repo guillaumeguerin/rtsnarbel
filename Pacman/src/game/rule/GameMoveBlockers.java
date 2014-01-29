@@ -1,11 +1,11 @@
-package pacman.rule;
+package game.rule;
 
+import game.entity.Horse;
+import game.entity.Water;
 import gameframework.game.IllegalMoveException;
 import gameframework.game.MoveBlockerRulesApplierDefaultImpl;
-import pacman.entity.Horse;
-import pacman.entity.Water;
 
-public class PacmanMoveBlockers extends MoveBlockerRulesApplierDefaultImpl {
+public class GameMoveBlockers extends MoveBlockerRulesApplierDefaultImpl {
 
 	public void moveBlockerRule(Horse g, Water w) throws IllegalMoveException {
 		// The default case is when a ghost is active and not able to cross a

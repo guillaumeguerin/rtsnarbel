@@ -1,5 +1,6 @@
 package gameframework.game;
 
+import game.GameLevelOne;
 import gameframework.base.ObservableValue;
 
 import java.awt.BorderLayout;
@@ -20,8 +21,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.JPanel;
-
-import pacman.GameLevelOne;
 
 /**
  * Create a basic game application with menus and displays of lives and score

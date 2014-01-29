@@ -1,5 +1,15 @@
-package pacman;
+package game;
 
+import game.entity.Castle;
+import game.entity.Grass;
+import game.entity.HealthPack;
+import game.entity.Horse;
+import game.entity.House;
+import game.entity.Tree;
+import game.entity.Water;
+import game.rule.EnemyMovableDriver;
+import game.rule.GameMoveBlockers;
+import game.rule.GameOverlapRules;
 import gameframework.base.MoveStrategy;
 import gameframework.base.MoveStrategyRandom;
 import gameframework.extended.MoveStrategyKeyboardStop;
@@ -21,17 +31,6 @@ import java.awt.Canvas;
 import java.awt.Point;
 import java.util.Random;
 
-
-import pacman.entity.Castle;
-import pacman.entity.Grass;
-import pacman.entity.HealthPack;
-import pacman.entity.Horse;
-import pacman.entity.House;
-import pacman.entity.Tree;
-import pacman.entity.Water;
-import pacman.rule.GhostMovableDriver;
-import pacman.rule.PacmanMoveBlockers;
-import pacman.rule.PacmanOverlapRules;
 import soldiers.soldier.Horseman;
 import soldiers.soldier.InfantryMan;
 import soldiers.soldier.SoldierAbstract;
@@ -59,9 +58,9 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			OverlapProcessor overlapProcessor = new OverlapProcessorDefaultImpl();
 
 			moveBlockerChecker = new MoveBlockerCheckerDefaultImpl();
-			moveBlockerChecker.setMoveBlockerRules(new PacmanMoveBlockers());
+			moveBlockerChecker.setMoveBlockerRules(new GameMoveBlockers());
 
-			PacmanOverlapRules overlapRules = new PacmanOverlapRules(enemy[0], score[0], endOfGame);
+			GameOverlapRules overlapRules = new GameOverlapRules(enemy[0], score[0], endOfGame);
 			overlapProcessor.setOverlapRules(overlapRules);
 
 			universe = new GameUniverseDefaultImpl(moveBlockerChecker, overlapProcessor);
@@ -125,7 +124,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 					enemy.setPosition(pos);
 				}		
 				
-				universe.addGameEntity(initMovableState(enemy, new GhostMovableDriver(), new MoveStrategyRandom()));
+				universe.addGameEntity(initMovableState(enemy, new EnemyMovableDriver(), new MoveStrategyRandom()));
 			}
 			
 			// Horse definition and inclusion in the universe
@@ -134,7 +133,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				myHorse = new Horse(canvas);
 				myHorse.setPosition(defineInitLocation(map, generator));
 				
-				universe.addGameEntity(initMovableState(myHorse, new GhostMovableDriver(), new MoveStrategyRandom()));
+				universe.addGameEntity(initMovableState(myHorse, new EnemyMovableDriver(), new MoveStrategyRandom()));
 				//TODO à enlever lors de la suppression de la classe NON_PLAYER_ENTITY
 				(overlapRules).addNonPlayerEntity(myHorse);
 			}
