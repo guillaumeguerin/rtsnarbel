@@ -129,18 +129,12 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			
 			Random generator = new Random();
 			for(int i=0; i<totalNbHealthPack; i++) {
-				
-				//Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS) -2)+1)) * SPRITE_SIZE);
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS -2)) * SPRITE_SIZE);
-				
 				while(tab[((int)pos.getY()/SPRITE_SIZE)][((int)pos.getX()/SPRITE_SIZE)] != 0){
-					pos = new Point( (generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS -2)) * SPRITE_SIZE);
+					pos.setLocation( (generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS -2)) * SPRITE_SIZE);
 				}
-				
 				universe.addGameEntity(new HealthPack(canvas, pos));
 			}
-
-			
 			
 			/* Enemies */
 
@@ -148,18 +142,18 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 			for(int i=0; i< NUMBER_OF_ENEMIES; i++) {
 				enemy = new Horseman("Enemy " + (i+1), canvas, "images/knight1.png", 1);
+				
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
 				if(pos.getY()/SPRITE_SIZE < 1)
 					pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
 				enemy.setPosition(pos);
-
-				while(tab[((int)enemy.getPosition().getX()/SPRITE_SIZE)][((int)enemy.getPosition().getY()/SPRITE_SIZE)] != 0){
-					pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
+				
+				while( tab [ ((int)enemy.getPosition().getY()/SPRITE_SIZE) ][ ((int)enemy.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
+					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/2 ) * SPRITE_SIZE);
 					if(pos.getY()/SPRITE_SIZE < 1)
 						pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
 					enemy.setPosition(pos);
-				}
-
+				}				
 				GameMovableDriverDefaultImpl enemyDriv = new GhostMovableDriver();
 				MoveStrategyRandom ranStr = new MoveStrategyRandom();
 				enemyDriv.setStrategy(ranStr);
@@ -184,16 +178,13 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				myHorse.setDriver(ghostDriv);
 				Point pos = new Point((generator.nextInt(1+GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS-2)) * SPRITE_SIZE);
 				while(tab[((int)pos.getY()/SPRITE_SIZE)][((int)pos.getX()/SPRITE_SIZE)] != 0){
-					pos = new Point((generator.nextInt(1+GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS-2)) * SPRITE_SIZE);
-					System.out.println("New_horse_pos, X:"+pos.getX()/SPRITE_SIZE+", Y:"+pos.getY()/SPRITE_SIZE+".");
+					pos.setLocation((1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS-2)) * SPRITE_SIZE);
 				}
 				myHorse.setPosition(pos);
 				universe.addGameEntity(myHorse);
 				(overlapRules).addNonPlayerEntity(myHorse);
 			}
-
 		}
-		System.out.println();
 	}
 
 
