@@ -15,12 +15,7 @@ import java.util.Vector;
 import pacman.GameLevelOne;
 import pacman.entity.HealthPack;
 import pacman.entity.Horse;
-import pacman.entity.Jail;
-import pacman.entity.Knight;
 import pacman.entity.NonPlayerEntity;
-import pacman.entity.Pacgum;
-import pacman.entity.SuperPacgum;
-import pacman.entity.TeleportPairOfPoints;
 import soldiers.soldier.*;
 
 public class PacmanOverlapRules extends OverlapRulesApplierDefaultImpl {
