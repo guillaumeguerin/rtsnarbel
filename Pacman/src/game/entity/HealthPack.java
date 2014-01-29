@@ -1,4 +1,4 @@
-package pacman.entity;
+package game.entity;
 
 import gameframework.base.Drawable;
 import gameframework.base.DrawableImage;
@@ -10,13 +10,13 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class Pacgum implements Drawable, GameEntity, Overlappable {
+public class HealthPack implements Drawable, GameEntity, Overlappable {
 	protected static DrawableImage image = null;
 	protected Point position;
 	public static final int RENDERING_SIZE = 32;
 
-	public Pacgum(Canvas defaultCanvas, Point pos) {
-		image = new DrawableImage("images/pacgum.gif", defaultCanvas);
+	public HealthPack(Canvas defaultCanvas, Point pos) {
+		image = new DrawableImage("images/health.png", defaultCanvas);
 		position = pos;
 	}
 

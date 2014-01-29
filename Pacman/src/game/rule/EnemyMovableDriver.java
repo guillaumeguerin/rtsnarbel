@@ -1,10 +1,10 @@
-package pacman.rule;
+package game.rule;
 
 import gameframework.base.Movable;
 import gameframework.base.SpeedVector;
 import gameframework.game.GameMovableDriverDefaultImpl;
 
-public class GhostMovableDriver extends GameMovableDriverDefaultImpl {
+public class EnemyMovableDriver extends GameMovableDriverDefaultImpl {
 
 	// A modified random strategy that makes ghosts mostly follow the alleys in
 	// one direction.

@@ -1,4 +1,4 @@
-package pacman;
+package game;
 
 import gameframework.game.GameDefaultImpl;
 import gameframework.game.GameLevel;

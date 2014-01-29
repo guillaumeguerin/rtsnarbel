@@ -1,4 +1,4 @@
-package pacman.entity;
+package game.entity;
 
 import java.awt.Canvas;
 import java.awt.Graphics;

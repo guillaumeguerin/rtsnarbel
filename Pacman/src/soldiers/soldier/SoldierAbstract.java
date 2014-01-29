@@ -21,6 +21,9 @@ public abstract class SoldierAbstract extends GameMovable implements Soldier, Dr
 	protected boolean movable = true;
 	protected boolean vulnerable = false;
 	protected int vulnerableTimer = 0;
+	protected Soldier soldier;
+	protected boolean selected = false;
+	
 	
 	protected String name;
 	protected float healthPoints;
@@ -54,6 +57,14 @@ public abstract class SoldierAbstract extends GameMovable implements Soldier, Dr
 
 	public float getTotalHealthPoints() {
 		return totalHealthPoints;
+	}
+	
+	public void setSelected(boolean a) {
+		selected = a;
+	}
+	
+	public boolean getSelected() {
+		return selected;
 	}
 	
 	public boolean alive() {
@@ -110,6 +121,10 @@ public abstract class SoldierAbstract extends GameMovable implements Soldier, Dr
 
 		drawLifeBar(g, 3);
 		
+		if(selected) {
+			g.setColor(Color.yellow);
+			g.drawRect(getPosition().x, getPosition().y, GameConfig.SPRITE_SIZE, GameConfig.SPRITE_SIZE);
+		}
 	}
 
 	public void drawLifeBar(Graphics g, int ratio) {
@@ -129,8 +144,17 @@ public abstract class SoldierAbstract extends GameMovable implements Soldier, Dr
 			}
 		}
 	}
+	
+	public void oneStepMove() {
+		if(selected || IDTeam != 0)
+			super.oneStepMove();
+	}
+	
+
 
 	public Rectangle getBoundingBox() {
 		return (new Rectangle(0, 0, RENDERING_SIZE, RENDERING_SIZE));
 	}
+	
+	
 }

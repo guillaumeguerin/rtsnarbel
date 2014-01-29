@@ -4,7 +4,6 @@ import gameframework.base.ObservableValue;
 
 import java.util.Date;
 
-import pacman.entity.MouseCursor;
 
 /**
  * To be implemented with respect to a specific game. Expected to initialize the
