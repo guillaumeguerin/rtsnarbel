@@ -16,6 +16,7 @@ public abstract class GameLevelDefaultImpl extends Thread implements GameLevel {
 	protected GameUniverseViewPort gameBoard;
 	protected ObservableValue<Integer> score[];
 	protected ObservableValue<Integer> enemy[];
+	protected ObservableValue<Integer> ally[];
 	protected ObservableValue<Boolean> endOfGame;
 
 	boolean stopGameLoop;
@@ -27,6 +28,7 @@ public abstract class GameLevelDefaultImpl extends Thread implements GameLevel {
 		this.g = g;
 		this.score = g.score();
 		this.enemy = g.enemy();
+		this.ally = g.ally();
 	}
 
 	@Override

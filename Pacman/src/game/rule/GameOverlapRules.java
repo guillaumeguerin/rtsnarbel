@@ -15,17 +15,19 @@ import java.util.Vector;
 import soldiers.soldier.*;
 
 public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
-	
+
 	protected GameUniverse universe;
 	protected Vector<NonPlayerEntity> vNonPlayerEntity = new Vector<NonPlayerEntity>();
 
 	private final ObservableValue<Integer> score;
 	private final ObservableValue<Integer> nb_enemy;
+	private final ObservableValue<Integer> nb_ally;
 	private final ObservableValue<Boolean> endOfGame;
 
-	public GameOverlapRules(ObservableValue<Integer> nb_enemy, ObservableValue<Integer> score,
+	public GameOverlapRules(ObservableValue<Integer> nb_enemy, ObservableValue<Integer> nb_ally, ObservableValue<Integer> score,
 			ObservableValue<Boolean> endOfGame) {
 		this.nb_enemy = nb_enemy;
+		this.nb_ally = nb_ally;
 		this.score = score;
 		this.endOfGame = endOfGame;
 	}
@@ -40,7 +42,7 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 
 
-/*	public void overlapRule(Knight p, NonPlayerEntity g) {
+	/*	public void overlapRule(Knight p, NonPlayerEntity g) {
 		if (!p.isVulnerable()) {
 			if (g.isActive()) {
 				g.setAlive(false);
@@ -100,7 +102,7 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 
 	public void overlapRule(MouseCursor m, InfantryMan p1) {
 		//System.out.println("mouse over " + p1.getName() + " !");
-		
+
 		m.setPosition(new Point(0,0));
 		if(p1.getTeam() == 0) {
 			if(p1.getSelected())
@@ -113,12 +115,12 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 				p1.setSelected(true);
 			else
 				p1.setSelected(false);
-		*/
+		 */
 	}
-	
+
 	public void overlapRule(MouseCursor m, Horseman p1) {
 		//System.out.println("mouse over " + p1.getName() + " !");
-		
+
 		m.setPosition(new Point(0,0));
 		if(p1.getTeam() == 0) {
 			if(p1.getSelected())
@@ -131,35 +133,38 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 				p1.setSelected(true);
 			else
 				p1.setSelected(false);
-		*/
+		 */
 	}
-	
+
 	public void battle(SoldierAbstract p1, SoldierAbstract p2) {
 		if(p1.getTeam() != p2.getTeam()) {
 			System.out.println(p1.getName() + " is fighting " + p2.getName() + " !");
 			p2.parry(p1.strike());
 			p1.parry(p2.strike());
-			if(!p1.alive()) {
-				if(p1.getTeam() != 0) { // He is not in our team
+			SoldierAbstract dead = null;
+			if (!p1.alive() || !p2.alive()){
+				if(!p1.alive())
+					dead = p1;
+				if(!p2.alive())
+					dead = p2;
+
+				if (dead.getTeam() != 0){ // He is not in our team
 					GameLevelOne.NUMBER_OF_ENEMIES--;
 					nb_enemy.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
 				}
-				universe.removeGameEntity(p1);
-				System.out.println(p1.getName() + " got killed !");
-				GameLevelOne.addRandomHealthPack();
-			}
-			if(!p2.alive()) {
-				if(p2.getTeam() != 0) {
-					GameLevelOne.NUMBER_OF_ENEMIES--;
-					nb_enemy.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+				if (dead.getTeam() == 0){ // He is in our team
+					GameLevelOne.NUMBER_OF_ALLIES--;
+					nb_ally.setValue(GameLevelOne.NUMBER_OF_ALLIES);
 				}
-				universe.removeGameEntity(p2);
-				System.out.println(p2.getName() + " got killed !");
+				universe.removeGameEntity(dead);
+				System.out.println(dead.getName() + " got killed !");
 				GameLevelOne.addRandomHealthPack();
 			}
 		}
+
 		else
 			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");
 	}
+
 
 }

@@ -43,7 +43,8 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
 	public static final int NUMBER_OF_HORSES = 2;
-	public static int NUMBER_OF_ENEMIES = 5;
+	public static int NUMBER_OF_ENEMIES = 6;
+	public static int NUMBER_OF_ALLIES = 1;
 	public static int HEALTHPACK_DROP_RATE = 5;
 	public static int NB_PLAYER = 1;
 	private static int TOTAL_NB_HEALTH_PACK = 5;
@@ -54,7 +55,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	protected void init() {
 
 		// Check if the number of object is less than the available space
-		if (NUMBER_OF_HORSES + NUMBER_OF_ENEMIES + TOTAL_NB_HEALTH_PACK + GameMap.NB_CASTLES + GameMap.NB_HOUSES + GameMap.NB_TREES + NB_PLAYER <= (GameConfig.NB_COLUMNS-2)*(GameConfig.NB_ROWS-2)){
+		if (NUMBER_OF_HORSES + NUMBER_OF_ENEMIES + NUMBER_OF_ALLIES + TOTAL_NB_HEALTH_PACK + GameMap.NB_CASTLES + GameMap.NB_HOUSES + GameMap.NB_TREES + NB_PLAYER <= (GameConfig.NB_COLUMNS-2)*(GameConfig.NB_ROWS-2)){
 			
 			Random generator = new Random();
 			
@@ -63,7 +64,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			moveBlockerChecker = new MoveBlockerCheckerDefaultImpl();
 			moveBlockerChecker.setMoveBlockerRules(new GameMoveBlockers());
 
-			GameOverlapRules overlapRules = new GameOverlapRules(enemy[0], score[0], endOfGame);
+			GameOverlapRules overlapRules = new GameOverlapRules(enemy[0], ally[0], score[0], endOfGame);
 			overlapProcessor.setOverlapRules(overlapRules);
 
 			universe = new GameUniverseDefaultImpl(moveBlockerChecker, overlapProcessor);

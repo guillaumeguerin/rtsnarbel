@@ -22,6 +22,8 @@ public interface Game {
 	public ObservableValue<Integer>[] score();
 
 	public ObservableValue<Integer>[] enemy();
+	
+	public ObservableValue<Integer>[] ally();
 
 	public ObservableValue<Boolean> endOfGame();
 }
