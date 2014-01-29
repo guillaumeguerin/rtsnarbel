@@ -12,6 +12,7 @@ import game.rule.EnemyMovableDriver;
 import game.rule.GameMoveBlockers;
 import game.rule.GameOverlapRules;
 import gameframework.base.MoveStrategy;
+import gameframework.base.MoveStrategyMouse;
 import gameframework.base.MoveStrategyRandom;
 import gameframework.extended.MoveStrategyKeyboardStop;
 import gameframework.extended.MoveStrategyMouseSelect;
@@ -108,12 +109,22 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			universe.addGameEntity(myMouse);
 
 			
-			// Hero definition and inclusion in the universe.
+			/*// Hero definition and inclusion in the universe.
 			SoldierAbstract myHero = new InfantryMan("toto", canvas, "images/knight2.png", 0);
 			myHero.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
 			MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();			
 			canvas.addKeyListener(keyStr);
-			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), keyStr));			
+			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), keyStr));			*/
+			
+			
+			
+			// Hero definition and inclusion in the universe.
+			SoldierAbstract myHero = new InfantryMan("toto", canvas, "images/knight2.png", 0);
+			myHero.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
+			MoveStrategyMouse mouseStr = new MoveStrategyMouse(myHero);			
+			canvas.addMouseListener(mouseStr);
+			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), mouseStr));			
+			
 			
 			
 			// HealthPack definition and inclusion in the universe.
@@ -184,13 +195,14 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	}
 
 	public static void switchInfantryHorseMan(InfantryMan inf){
-
+		
 		Horseman new_horseman = new Horseman(inf.getName(), canvas, "images/knight2.png",inf.getTeam());
 		new_horseman.setPosition(inf.getPosition());
-		MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();
-		canvas.addKeyListener(keyStr);
-
-		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), keyStr));
+		MoveStrategyMouse mouseStr = new MoveStrategyMouse(new_horseman);
+		canvas.addMouseListener(mouseStr);
+		if(inf.getSelected())
+			new_horseman.setSelected(true);
+		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), mouseStr));
 
 		universe.removeGameEntity(inf);
 
