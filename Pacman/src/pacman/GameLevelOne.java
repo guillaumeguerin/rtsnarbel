@@ -4,7 +4,6 @@ import gameframework.base.MoveStrategyKeyboard;
 import gameframework.base.MoveStrategyRandom;
 import gameframework.extended.MoveStrategyKeyboardStop;
 import gameframework.extended.MoveStrategyMouseSelect;
-import gameframework.extended.MoveStrategyMouseStop;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
 import gameframework.game.GameConfig;
@@ -12,6 +11,7 @@ import gameframework.game.GameEntity;
 import gameframework.game.GameLevelDefaultImpl;
 import gameframework.game.GameMovable;
 import gameframework.game.GameMovableDriverDefaultImpl;
+import gameframework.game.GameMovableMouseDriverDefaultImpl;
 import gameframework.game.GameUniverseDefaultImpl;
 import gameframework.game.GameUniverseViewPortDefaultImpl;
 import gameframework.game.MoveBlockerChecker;
@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 import pacman.entity.Castle;
+import pacman.entity.EnemyKnight;
 import pacman.entity.Ghost;
 import pacman.entity.Grass;
 import pacman.entity.HealthPack;
@@ -32,6 +33,7 @@ import pacman.entity.Horse;
 import pacman.entity.House;
 import pacman.entity.Jail;
 import pacman.entity.Knight;
+import pacman.entity.MouseCursor;
 import pacman.entity.Pacgum;
 import pacman.entity.Pacman;
 import pacman.entity.SuperPacgum;
@@ -114,7 +116,19 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			 */
 
 			// hero definition and inclusion in the universe
-			SoldierAbstract myPac = new InfantryMan("toto", canvas, "images/knight2.png", 0);
+
+
+			MouseCursor myMouse = new MouseCursor(canvas);
+			MoveStrategyMouseSelect mouse = new MoveStrategyMouseSelect();
+			GameMovableMouseDriverDefaultImpl mouseDriver = new GameMovableMouseDriverDefaultImpl();
+			mouseDriver.setStrategy(mouse);
+			//mouseDriver.setmoveBlockerChecker(moveBlockerChecker);
+			canvas.addMouseListener(mouse);
+			myMouse.setDriver(mouseDriver);
+			universe.addGameEntity(myMouse);
+
+
+			SoldierAbstract myPac = new InfantryMan("toto", canvas, "images/knight1.png", 1);
 			GameMovableDriverDefaultImpl pacDriver = new GameMovableDriverDefaultImpl();
 			MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();
 			//MoveStrategyMouseSelect mouseStr = new MoveStrategyMouseSelect();
@@ -126,7 +140,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			myPac.setDriver(pacDriver);
 			myPac.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
 			universe.addGameEntity(myPac);			
-			
+
 			Random generator = new Random();
 			for(int i=0; i<totalNbHealthPack; i++) {
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS -2)) * SPRITE_SIZE);
@@ -135,19 +149,19 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				}
 				universe.addGameEntity(new HealthPack(canvas, pos));
 			}
-			
+
 			/* Enemies */
 
 			SoldierAbstract enemy;
 
 			for(int i=0; i< NUMBER_OF_ENEMIES; i++) {
 				enemy = new Horseman("Enemy " + (i+1), canvas, "images/knight1.png", 1);
-				
+
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
 				if(pos.getY()/SPRITE_SIZE < 1)
 					pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
 				enemy.setPosition(pos);
-				
+
 				while( tab [ ((int)enemy.getPosition().getY()/SPRITE_SIZE) ][ ((int)enemy.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
 					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/2 ) * SPRITE_SIZE);
 					if(pos.getY()/SPRITE_SIZE < 1)
@@ -158,7 +172,9 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				MoveStrategyRandom ranStr = new MoveStrategyRandom();
 				enemyDriv.setStrategy(ranStr);
 				enemyDriv.setmoveBlockerChecker(moveBlockerChecker);
+				enemy.setDriver(enemyDriv);
 				universe.addGameEntity(enemy);
+				//(overlapRules).addNonPlayerEntity(enemy);
 			}
 
 

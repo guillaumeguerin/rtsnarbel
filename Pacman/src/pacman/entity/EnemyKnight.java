@@ -1,11 +1,11 @@
 package pacman.entity;
 
 import gameframework.base.Drawable;
+import gameframework.base.DrawableImage;
 import gameframework.base.Overlappable;
 import gameframework.game.GameConfig;
 import gameframework.game.GameEntity;
 import gameframework.game.GameMovable;
-import gameframework.game.SpriteManager;
 import gameframework.game.SpriteManagerDefaultImpl;
 
 import java.awt.Canvas;
@@ -16,80 +16,84 @@ import java.awt.Rectangle;
 
 import soldiers.soldier.Soldier;
 
-public class Knight extends GameMovable implements Drawable, GameEntity,
+public class EnemyKnight extends NonPlayerEntity implements Drawable, GameEntity,
 		Overlappable, Soldier {
-	protected final SpriteManager spriteManager;
-	public static final int RENDERING_SIZE = 32;
-	protected boolean movable = true;
-	protected boolean vulnerable = false;
-	protected int vulnerableTimer = 0;
+	protected static DrawableImage image = null;
 	protected Soldier soldier;
-	protected boolean selected = false;
-	
-	
-	public Knight(Canvas defaultCanvas, String image, Soldier s) {
-		spriteManager = new SpriteManagerDefaultImpl(image,
+	protected boolean movable = true;
+	protected int afraidTimer = 0;
+	protected int maxAfraidTimer = 0;
+	protected boolean active = true;
+	private final SpriteManagerDefaultImpl spriteManager;
+	public static final int RENDERING_SIZE = 32;
+
+	public EnemyKnight(Canvas defaultCanvas, String imgname, Soldier s) {
+		spriteManager = new SpriteManagerDefaultImpl(imgname,
 				defaultCanvas, RENDERING_SIZE, 3);
 		spriteManager.setTypes(
 				//
-				"right", "left", "up",
+				"left",
+				"right",
+				"up",
 				"down",//
-				"static");
+				"beginAfraid-left",
+				"beginAfraid-right",
+				"beginAfraid-up",
+				"beginAfraid-down", //
+				"endAfraid-left", "endAfraid-right",
+				"endAfraid-up",
+				"endAfraid-down", //
+				"inactive-left", "inactive-right", "inactive-up",
+				"inactive-down", //
+				"unused");
 		soldier = s;
 	}
 
-	public void setSoldier(Soldier s) {
-		soldier = s;
-	}	
-	
-	public void setSelected(boolean a) {
-		selected = a;
-	}
-	
-	public boolean getSelected() {
-		return selected;
-	}
-	
-	public void setInvulnerable(int timer) {
-		vulnerableTimer = timer;
+	public boolean isAfraid() {
+		return afraidTimer > 0;
 	}
 
-	public boolean isVulnerable() {
-		return (vulnerableTimer <= 0);
+	public void setAfraid(int timer) {
+		maxAfraidTimer = afraidTimer = timer;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setAlive(boolean aliveState) {
+		active = aliveState;
 	}
 
 	public void draw(Graphics g) {
 		String spriteType = "";
 		Point tmp = getSpeedVector().getDirection();
 		movable = true;
-		if (!isVulnerable()) {
-			spriteType += "invulnerable-";
+
+		if (!isActive()) {
+			spriteType = "inactive-";
+		} else if (afraidTimer > maxAfraidTimer / 2) {
+			spriteType = "beginAfraid-";
+		} else if (isAfraid()) {
+			spriteType = "endAfraid-";
 		}
 
-		if (tmp.getX() == 1) {
+		if (tmp.getX() == -1) {
 			spriteType += "right";
-		} else if (tmp.getX() == -1) {
-			spriteType += "left";
 		} else if (tmp.getY() == 1) {
 			spriteType += "down";
 		} else if (tmp.getY() == -1) {
 			spriteType += "up";
 		} else {
-			spriteType = "static";
-			spriteManager.reset();
-			movable = false;
+			spriteType += "left";
 		}
+
 		spriteManager.setType(spriteType);
 		spriteManager.draw(g, getPosition());
-
-		drawLifeBar(g, 3);
 		
-		if(selected) {
-			g.setColor(Color.yellow);
-			g.drawRect(getPosition().x, getPosition().y, GameConfig.SPRITE_SIZE, GameConfig.SPRITE_SIZE);
-		}
+		drawLifeBar(g,3);
 	}
-
+	
 	public void drawLifeBar(Graphics g, int ratio) {
 		g.setColor(Color.red);
 		g.fillRect(Math.round(getPosition().x - getTotalHealthPoints()/(2*ratio) + GameConfig.SPRITE_SIZE/2) -15, getPosition().y -15 , Math.round(getHealthPoints()/ratio), 5);
@@ -97,20 +101,14 @@ public class Knight extends GameMovable implements Drawable, GameEntity,
 		g.drawRect(Math.round(getPosition().x - getTotalHealthPoints()/(2*ratio) + GameConfig.SPRITE_SIZE/2) -15, getPosition().y -15 , Math.round(getTotalHealthPoints()/ratio), 5);
 		g.drawString(getName(), getPosition().x -5, getPosition().y-20);
 	}
-	
-	@Override
+
 	public void oneStepMoveAddedBehavior() {
 		if (movable) {
 			spriteManager.increment();
-			if (!isVulnerable()) {
-				vulnerableTimer--;
+			if (isAfraid()) {
+				afraidTimer--;
 			}
 		}
-	}
-	
-	public void oneStepMove() {
-		if(selected)
-			super.oneStepMove();
 	}
 
 	public Rectangle getBoundingBox() {
