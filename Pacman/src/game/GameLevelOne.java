@@ -44,7 +44,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
 	public static final int NUMBER_OF_HORSES = 2;
-	public static int NUMBER_OF_ENEMIES = 6;
+	public static int NUMBER_OF_ENEMIES = 2;
 	public static int NUMBER_OF_ALLIES = 1;
 	public static int HEALTHPACK_DROP_RATE = 5;
 	public static int NB_PLAYER = 1;
@@ -135,7 +135,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			// Enemies definition and inclusion in the universe.
 			SoldierAbstract enemy;
 			for(int i=0; i< NUMBER_OF_ENEMIES; ++i) {
-				enemy = new Horseman("Enemy " + (i+1), canvas, "images/knight1.png", 1);
+				enemy = new InfantryMan("Enemy " + (i+1), canvas, "images/knight1.png", 1);
 				
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
 				if(pos.getY()/SPRITE_SIZE < 1)

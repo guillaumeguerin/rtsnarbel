@@ -255,8 +255,8 @@ public class GameDefaultImpl implements Game, Observer {
 					enemyValue.setText(Integer.toString(enemies));
 					if (enemies == 0) {
 						informationValue.setText("You win");
-						currentPlayedLevel.interrupt();
-						currentPlayedLevel.end();
+						//currentPlayedLevel.interrupt();
+						//currentPlayedLevel.end();
 					}
 				}
 			}
