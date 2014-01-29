@@ -194,13 +194,14 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	}
 
 	public static void switchInfantryHorseMan(InfantryMan inf){
-
+		
 		Horseman new_horseman = new Horseman(inf.getName(), canvas, "images/knight2.png",inf.getTeam());
 		new_horseman.setPosition(inf.getPosition());
-		MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();
-		canvas.addKeyListener(keyStr);
-
-		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), keyStr));
+		MoveStrategyMouse mouseStr = new MoveStrategyMouse(new_horseman);
+		canvas.addMouseListener(mouseStr);
+		if(inf.getSelected())
+			new_horseman.setSelected(true);
+		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), mouseStr));
 
 		universe.removeGameEntity(inf);
 
