@@ -48,7 +48,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	public static int NUMBER_OF_ENEMIES = 4;
 	public static int NUMBER_OF_ALLIES = 4;
 	public static int HEALTHPACK_DROP_RATE = 5;
-	public static int SWORD_DROP_RATE = 5;
+	public static int SWORD_DROP_RATE = 1;
 	public static int SHIELD_DROP_RATE = 4;
 	public static int NB_PLAYER = 1;
 	private static int TOTAL_NB_HEALTH_PACK = 5;
@@ -230,6 +230,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	public static void switchInfantryHorseMan(ArmedUnitSoldier inf){
 		
 		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", inf.getName(), canvas, "images/knight2.png",inf.getTeam());
+		System.out.println(new_horseman.getName());
 		new_horseman.setPosition(inf.getPosition());
 		MoveStrategyMouse mouseStr = new MoveStrategyMouse(new_horseman);
 		canvas.addMouseListener(mouseStr);

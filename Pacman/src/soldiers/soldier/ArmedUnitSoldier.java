@@ -27,10 +27,12 @@ public class ArmedUnitSoldier extends GameMovable implements Drawable, GameEntit
 
 	protected boolean selected = false;
 	protected final SpriteManager spriteManager;
+	protected ArrayList<SpriteManagerDefaultImpl> spriteManagerEquipment;
 	public static final int RENDERING_SIZE = 32;
 	protected boolean movable = true;
 	protected int IDTeam;
 	protected String typeSoldier;
+	private Canvas canvas;
 
 
 
@@ -45,7 +47,7 @@ public class ArmedUnitSoldier extends GameMovable implements Drawable, GameEntit
 			throw new UnknownSoldierTypeException("Unknown soldier type"
 					+ e.toString());
 		}
-		
+
 		spriteManager = new SpriteManagerDefaultImpl(image,
 				defaultCanvas, RENDERING_SIZE, 3);
 		spriteManager.setTypes(
@@ -55,6 +57,8 @@ public class ArmedUnitSoldier extends GameMovable implements Drawable, GameEntit
 				"static");
 		this.IDTeam = IDTeam;
 		this.typeSoldier = soldatType;
+		this.canvas = defaultCanvas;
+		this.spriteManagerEquipment = new ArrayList<SpriteManagerDefaultImpl>();
 	}
 
 	public void addEquipment(String equipmentType) {
@@ -63,17 +67,27 @@ public class ArmedUnitSoldier extends GameMovable implements Drawable, GameEntit
 				return; // decoration not applied
 			} else {
 				String methodName = "get" + equipmentType + "Weapon";
+				String methodNameImage = "get" + equipmentType + "Image";
 				try {
 					Method method = age.getClass().getMethod(methodName,
 							Soldier.class);
 					soldier = (Soldier) method.invoke(age, soldier);
 					equipments.add(equipmentType);
+					
+					method = age.getClass().getMethod(methodNameImage);
+					String image = (String) method.invoke(age);
+					SpriteManagerDefaultImpl tmp = new SpriteManagerDefaultImpl(image,
+							canvas, RENDERING_SIZE, 1);
+					tmp.setTypes("static");
+					spriteManagerEquipment.add(tmp);
 				} catch (Exception e) {
 					throw new RuntimeException("Unknown equipment type "
 							+ e.toString());
 				}
+
 			}
 		}
+		
 	}
 
 	public String getName() {
@@ -150,9 +164,13 @@ public class ArmedUnitSoldier extends GameMovable implements Drawable, GameEntit
 			spriteType = "static";
 			spriteManager.reset();
 			movable = false;
+			
 		}
 		spriteManager.setType(spriteType);
 		spriteManager.draw(g, getPosition());
+		for(SpriteManagerDefaultImpl spr : spriteManagerEquipment)
+			spr.draw(g, getPosition());
+		
 
 		drawLifeBar(g, 3);
 		

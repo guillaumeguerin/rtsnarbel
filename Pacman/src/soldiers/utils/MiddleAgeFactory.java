@@ -1,8 +1,6 @@
 package soldiers.utils;
 
 
-import java.awt.Canvas;
-
 import soldiers.soldier.*; 
 import soldiers.weapon.*;
 
@@ -21,6 +19,14 @@ public class MiddleAgeFactory implements AgeFactory {
  
 	public Soldier getOffensiveWeapon(Soldier s) {
 		return new SoldierWithSword(s);
+	}
+	
+	public String getDefensiveImage(){
+		return SoldierWithShield.getShieldImage();
+	}
+	
+	public String getOffensiveImage(){
+		return SoldierWithSword.getSwordImage();
 	}
 
 }
