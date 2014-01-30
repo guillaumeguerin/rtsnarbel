@@ -35,9 +35,10 @@ import java.awt.Canvas;
 import java.awt.Point;
 import java.util.Random;
 
-import soldiers.soldier.Horseman;
-import soldiers.soldier.InfantryMan;
-import soldiers.soldier.SoldierAbstract;
+import soldiers.soldier.ArmedUnit;
+import soldiers.soldier.ArmedUnitSoldier;
+import soldiers.utils.AgeFactory;
+import soldiers.utils.MiddleAgeFactory;
 
 public class GameLevelOne extends GameLevelDefaultImpl {
 	static Canvas canvas;
@@ -125,9 +126,11 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			canvas.addMouseListener(mouseStr);
 			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), mouseStr));			*/
 			
-			SoldierAbstract ally;
+			AgeFactory af = new MiddleAgeFactory();
+			
+			ArmedUnitSoldier ally;
 			for(int i=0; i< NUMBER_OF_ALLIES; ++i) {
-				ally = new InfantryMan("Ally " + (i+1), canvas, "images/knight2.png", 0);
+				ally = new ArmedUnitSoldier(af, "Simple", "Ally " + (i+1), canvas, "images/knight2.png", 0);
 				
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, ((((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2)+GameConfig.NB_ROWS/2) * SPRITE_SIZE);
 				ally.setPosition(pos);
@@ -151,9 +154,9 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			}
 			
 			// Enemies definition and inclusion in the universe.
-			SoldierAbstract enemy;
+			ArmedUnitSoldier enemy;
 			for(int i=0; i< NUMBER_OF_ENEMIES; ++i) {
-				enemy = new InfantryMan("Enemy " + (i+1), canvas, "images/knight1.png", 1);
+				enemy = new ArmedUnitSoldier(af, "Simple", "Enemy " + (i+1), canvas, "images/knight1.png", 1);
 				
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
 				if(pos.getY()/SPRITE_SIZE < 1)
@@ -212,9 +215,9 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		canvas = g.getCanvas();
 	}
 
-	public static void switchInfantryHorseMan(InfantryMan inf){
+	public static void switchInfantryHorseMan(ArmedUnitSoldier inf){
 		
-		Horseman new_horseman = new Horseman(inf.getName(), canvas, "images/knight2.png",inf.getTeam());
+		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", inf.getName(), canvas, "images/knight2.png",inf.getTeam());
 		new_horseman.setPosition(inf.getPosition());
 		MoveStrategyMouse mouseStr = new MoveStrategyMouse(new_horseman);
 		canvas.addMouseListener(mouseStr);

@@ -42,65 +42,26 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 
 
-	/*	public void overlapRule(Knight p, NonPlayerEntity g) {
-		if (!p.isVulnerable()) {
-			if (g.isActive()) {
-				g.setAlive(false);
-				MoveStrategyStraightLine strat = new MoveStrategyStraightLine(
-						g.getPosition(), ghostStartPos);
-				GameMovableDriverDefaultImpl ghostDriv = (GameMovableDriverDefaultImpl) g
-						.getDriver();
-				ghostDriv.setStrategy(strat);
-
-			}
-		} else {
-			if (g.isActive()) {
-				if (managePacmanDeath) {
-					life.setValue(life.getValue() - 1);
-					p.setPosition(pacManStartPos);
-					for (NonPlayerEntity nonPlayerEntity : vNonPlayerEntity) {
-						nonPlayerEntity.setPosition(ghostStartPos);
-					}
-					managePacmanDeath = false;
-				}
-			}
-		}
-	}*/
-
-	public void overlapRule(InfantryMan s, HealthPack hp) {
+	public void overlapRule(ArmedUnitSoldier s, HealthPack hp) {
 		System.out.println(s.getName() + " is healed !");
 		if(s.getHealthPoints() != s.getTotalHealthPoints())
 			s.heal();
 		universe.removeGameEntity(hp);
 	}
 
-	public void overlapRule(Horseman s, HealthPack hp) {
-		System.out.println(s.getName() + " is healed !");
-		if(s.getHealthPoints() != s.getTotalHealthPoints())
-			s.heal();
-		universe.removeGameEntity(hp);
-	}
 
-	public void overlapRule(InfantryMan s, Horse h){
-		if (s.getTeam()==0){
+	public void overlapRule(ArmedUnitSoldier s, Horse h){
+		if (s.getTeam()==0 && s.getType()=="Simple"){
 			System.out.println(s.getName() + " is riding a horse !");
 			universe.removeGameEntity(h);
 			GameLevelOne.switchInfantryHorseMan(s);
 		}
 	}
-	public void overlapRule(InfantryMan p1, InfantryMan p2) {
+	public void overlapRule(ArmedUnitSoldier p1, ArmedUnitSoldier p2) {
 		battle(p1, p2);
 	}
 
-	public void overlapRule(InfantryMan p1, Horseman p2) {
-		battle(p1, p2);
-	}
-
-	public void overlapRule(Horseman p1, Horseman p2) {
-		battle(p1, p2);
-	}
-
-	public void overlapRule(MouseCursor m, InfantryMan p1) {
+	public void overlapRule(MouseCursor m, ArmedUnitSoldier p1) {
 		//System.out.println("mouse over " + p1.getName() + " !");
 
 		m.setPosition(new Point(0,0));
@@ -110,38 +71,15 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 			else
 				p1.setSelected(true);
 		}
-		/*if(p1.getTeam() == 0)
-			if(!p1.getSelected())
-				p1.setSelected(true);
-			else
-				p1.setSelected(false);
-		 */
 	}
 
-	public void overlapRule(MouseCursor m, Horseman p1) {
-		//System.out.println("mouse over " + p1.getName() + " !");
 
-		m.setPosition(new Point(0,0));
-		if(p1.getTeam() == 0) {
-			if(p1.getSelected())
-				p1.setSelected(false);
-			else
-				p1.setSelected(true);
-		}
-		/*if(p1.getTeam() == 0)
-			if(!p1.getSelected())
-				p1.setSelected(true);
-			else
-				p1.setSelected(false);
-		 */
-	}
-
-	public void battle(SoldierAbstract p1, SoldierAbstract p2) {
+	public void battle(ArmedUnitSoldier p1, ArmedUnitSoldier p2) {
 		if(p1.getTeam() != p2.getTeam()) {
 			System.out.println(p1.getName() + " is fighting " + p2.getName() + " !");
 			p2.parry(p1.strike());
 			p1.parry(p2.strike());
-			SoldierAbstract dead = null;
+			ArmedUnitSoldier dead = null;
 			if (!p1.alive() || !p2.alive()){
 				if(!p1.alive())
 					dead = p1;

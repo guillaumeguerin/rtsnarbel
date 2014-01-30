@@ -6,8 +6,8 @@ import soldiers.soldier.Soldier;
 import soldiers.soldier.SoldierAbstract;
 
 public interface AgeFactory {
-	SoldierAbstract getSimpleSoldier(String name, Canvas defaultCanvas, String image, int IDTeam);
-	SoldierAbstract getComplexSoldier(String name, Canvas defaultCanvas, String image, int IDTeam);
+	SoldierAbstract getSimpleSoldier(String name);
+	SoldierAbstract getComplexSoldier(String name);
 	Soldier getDefensiveWeapon(Soldier s);
 	Soldier getOffensiveWeapon(Soldier s);
 }
