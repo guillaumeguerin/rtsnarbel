@@ -80,15 +80,19 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 			p2.parry(p1.strike());
 			p1.parry(p2.strike());
 			ArmedUnitSoldier dead = null;
+			ArmedUnitSoldier winner = null;
 			if (!p1.alive() || !p2.alive()){
 				if(!p1.alive())
+					winner = p2;
 					dead = p1;
 				if(!p2.alive())
 					dead = p2;
+					winner = p1;
 
 				if (dead.getTeam() != 0){ // He is not in our team
 					GameLevelOne.NUMBER_OF_ENEMIES--;
 					nb_enemy.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
+					GameLevelOne.loot(winner);
 				}
 				if (dead.getTeam() == 0){ // He is in our team
 					GameLevelOne.NUMBER_OF_ALLIES--;
@@ -100,8 +104,8 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 			}
 		}
 
-		else
-			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");
+		/*else
+			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");*/
 	}
 
 

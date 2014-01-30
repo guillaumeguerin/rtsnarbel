@@ -48,6 +48,8 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	public static int NUMBER_OF_ENEMIES = 4;
 	public static int NUMBER_OF_ALLIES = 4;
 	public static int HEALTHPACK_DROP_RATE = 5;
+	public static int SWORD_DROP_RATE = 5;
+	public static int SHIELD_DROP_RATE = 4;
 	public static int NB_PLAYER = 1;
 	private static int TOTAL_NB_HEALTH_PACK = 5;
 
@@ -131,7 +133,6 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			ArmedUnitSoldier ally;
 			for(int i=0; i< NUMBER_OF_ALLIES; ++i) {
 				ally = new ArmedUnitSoldier(af, "Simple", "Ally " + (i+1), canvas, "images/knight2.png", 0);
-				
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, ((((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2)+GameConfig.NB_ROWS/2) * SPRITE_SIZE);
 				ally.setPosition(pos);
 				
@@ -157,7 +158,6 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			ArmedUnitSoldier enemy;
 			for(int i=0; i< NUMBER_OF_ENEMIES; ++i) {
 				enemy = new ArmedUnitSoldier(af, "Simple", "Enemy " + (i+1), canvas, "images/knight1.png", 1);
-				
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
 				if(pos.getY()/SPRITE_SIZE < 1)
 					pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
@@ -215,6 +215,18 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		canvas = g.getCanvas();
 	}
 
+	public static void loot(ArmedUnitSoldier s){
+		Random generator = new Random();
+		if (generator.nextInt(SWORD_DROP_RATE) == 0){
+			s.addEquipment("Offensive");
+			System.out.println(s.getName() + " loot sword");
+		}
+		if (generator.nextInt(SHIELD_DROP_RATE) == 0){
+			s.addEquipment("Defensive");
+			System.out.println(s.getName() + " loot shield");
+		}
+	}
+	
 	public static void switchInfantryHorseMan(ArmedUnitSoldier inf){
 		
 		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", inf.getName(), canvas, "images/knight2.png",inf.getTeam());

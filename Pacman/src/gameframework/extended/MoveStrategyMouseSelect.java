@@ -44,9 +44,9 @@ public class MoveStrategyMouseSelect extends MouseAdapter  {
 	}
 
 
-	public void mouseReleased(MouseEvent event) {
+	/*public void mouseReleased(MouseEvent event) {
 		System.out.println("mouse released");
-	}
+	}*/
 
 
 

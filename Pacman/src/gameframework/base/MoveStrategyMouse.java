@@ -41,7 +41,7 @@ public class MoveStrategyMouse extends MouseAdapter implements MoveStrategy {
 				a = -a;
 			if(p2.y<0)
 				b = -b;
-			System.out.println("mouse coord x: " + event.getX() + " y: " + event.getY() + " p2.x: " + p2.x + " p2.y: "+ p2.y +" a: " + a + " b: " + b);
+			//System.out.println("mouse coord x: " + event.getX() + " y: " + event.getY() + " p2.x: " + p2.x + " p2.y: "+ p2.y +" a: " + a + " b: " + b);
 			speedVector.setDirection(new Point(a,b));
 		}
 	}
