@@ -43,16 +43,16 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 
 
 	public void overlapRule(ArmedUnitSoldier s, HealthPack hp) {
-		System.out.println(s.getName() + " is healed !");
-		if(s.getHealthPoints() != s.getTotalHealthPoints())
-			s.heal();
-		universe.removeGameEntity(hp);
+		if(s.getTeam() == 0){
+			if(s.getHealthPoints() != s.getTotalHealthPoints())
+				s.heal();
+			universe.removeGameEntity(hp);
+		}
 	}
 
 
 	public void overlapRule(ArmedUnitSoldier s, Horse h){
 		if (s.getTeam()==0 && s.getType()=="Simple"){
-			System.out.println(s.getName() + " is riding a horse !");
 			universe.removeGameEntity(h);
 			GameLevelOne.switchInfantryHorseMan(s);
 		}
@@ -71,9 +71,14 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 		}
 	}
 
-
 	public void battle(ArmedUnitSoldier p1, ArmedUnitSoldier p2) {
-		if(p1.getTeam() != p2.getTeam()) {			
+		if(p1.getTeam() != p2.getTeam()) {
+			//If two soldiers of different factions are identical, the player always win.
+			if(p2.getTeam() == 0){
+				ArmedUnitSoldier p3 = p2;
+				p2 = p1;
+				p1 = p3;
+			}
 			p2.parry(p1.strike());
 			p1.parry(p2.strike());
 			ArmedUnitSoldier dead = null;
@@ -97,11 +102,9 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 					nb_ally.setValue(GameLevelOne.NUMBER_OF_ALLIES);
 				}
 				universe.removeGameEntity(dead);
-				System.out.println(dead.getName() + " got killed !");
 				GameLevelOne.addRandomHealthPack();
 			}
 		}
 	}
-
 
 }

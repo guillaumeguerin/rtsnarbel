@@ -37,7 +37,6 @@ import java.awt.Point;
 import java.util.List;
 import java.util.Random;
 
-import soldiers.soldier.ArmedUnit;
 import soldiers.soldier.ArmedUnitSoldier;
 import soldiers.utils.AgeFactory;
 import soldiers.utils.MiddleAgeFactory;
@@ -47,11 +46,11 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
 	public static final int NUMBER_OF_HORSES = 2;
-	public static int NUMBER_OF_ENEMIES = 4;
+	public static int NUMBER_OF_ENEMIES = 7;
 	public static int NUMBER_OF_ALLIES = 4;
 	public static int HEALTHPACK_DROP_RATE = 5;
-	public static int SWORD_DROP_RATE = 1;
-	public static int SHIELD_DROP_RATE = 1;
+	public static int SWORD_DROP_RATE = 5;
+	public static int SHIELD_DROP_RATE = 4;
 	public static int NB_PLAYER = 1;
 	private static int TOTAL_NB_HEALTH_PACK = 5;
 
@@ -62,9 +61,9 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 		// Check if the number of object is less than the available space
 		if (NUMBER_OF_HORSES + NUMBER_OF_ENEMIES + NUMBER_OF_ALLIES + TOTAL_NB_HEALTH_PACK + GameMap.NB_CASTLES + GameMap.NB_HOUSES + GameMap.NB_TREES + NB_PLAYER <= (GameConfig.NB_COLUMNS-2)*(GameConfig.NB_ROWS-2)){
-			
+
 			Random generator = new Random();
-			
+
 			OverlapProcessor overlapProcessor = new OverlapProcessorDefaultImpl();
 
 			moveBlockerChecker = new MoveBlockerCheckerDefaultImpl();
@@ -101,54 +100,88 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 					}
 				}
 			}
-			
+
+			// Invisible character who is used to select unities, definition and inclusion in the universe.
 			MouseCursor myMouse = new MouseCursor(canvas);
 			MoveStrategyMouseSelect mouse = new MoveStrategyMouseSelect();
 			GameMovableMouseDriverDefaultImpl mouseDriver = new GameMovableMouseDriverDefaultImpl();
 			mouseDriver.setStrategy(mouse);
-			//mouseDriver.setmoveBlockerChecker(moveBlockerChecker);
 			canvas.addMouseListener(mouse);
 			myMouse.setDriver(mouseDriver);
 			universe.addGameEntity(myMouse);
-			
+
+			// Allies definition and inclusion in the universe.
 			AgeFactory af = new MiddleAgeFactory();
-			
+
 			ArmedUnitSoldier ally;
 			for(int i=0; i< NUMBER_OF_ALLIES; ++i) {
 				ally = new ArmedUnitSoldier(af, "Simple", "Ally " + (i+1), canvas, "images/knight2.png", 0);
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, ((((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2)+GameConfig.NB_ROWS/2) * SPRITE_SIZE);
 				ally.setPosition(pos);
-				
+
 				while( map [ ((int)ally.getPosition().getY()/SPRITE_SIZE) ][ ((int)ally.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
 					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/2 ) * SPRITE_SIZE);
 					ally.setPosition(pos);
 				}	
-				
+
 				MoveStrategyMouse mouseStr = new MoveStrategyMouse(ally);			
 				canvas.addMouseListener(mouseStr);
-				
+
 				universe.addGameEntity(initMovableState(ally, new GameMovableDriverDefaultImpl(), mouseStr));
 			}
-			
+
 			// Enemies definition and inclusion in the universe.
 			ArmedUnitSoldier enemy;
 			for(int i=0; i< NUMBER_OF_ENEMIES; ++i) {
-				enemy = new ArmedUnitSoldier(af, "Simple", "Enemy " + (i+1), canvas, "images/knight1.png", 1);
+
+				// Define a random chance to be a class or other
+				switch(classValue()){
+				case SIMPLE:
+					enemy = new ArmedUnitSoldier(af, "Simple", "Enemy " + (i+1), canvas, "images/knight1.png", 1);
+					break;
+				case COMPLEX:
+					enemy = new ArmedUnitSoldier(af, "Complex", "Enemy " + (i+1), canvas, "images/knight1.png", 1);
+					break;
+				default:
+					System.err.println("Error : Random soldier class.");
+					enemy = new ArmedUnitSoldier(af, "Simple", "ERROR" + (i+1), canvas, "images/knight1.png", 1);
+					break;
+				}
+
+				// Define a random chance to get stuff at start of game
+				switch(stuffValue()){
+				case NOTHING:
+					break;
+				case SWORD:
+					enemy.addEquipment("Offensive");
+					break;
+				case SHIELD:
+					enemy.addEquipment("Defensive");
+					break;
+				case DOUBLE:
+					enemy.addEquipment("Offensive");
+					enemy.addEquipment("Defensive");
+					break;
+				default:
+					System.err.println("Error : Random stuff.");
+					break;
+				}
+
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
 				if(pos.getY()/SPRITE_SIZE < 1)
 					pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
 				enemy.setPosition(pos);
-				
+
 				while( map [ ((int)enemy.getPosition().getY()/SPRITE_SIZE) ][ ((int)enemy.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
 					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/2 ) * SPRITE_SIZE);
 					if(pos.getY()/SPRITE_SIZE < 1)
 						pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
 					enemy.setPosition(pos);
 				}		
-				
+
 				universe.addGameEntity(initMovableState(enemy, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
 			}
-			
+
 			// HealthPack definition and inclusion in the universe.
 			for(int i=0; i<TOTAL_NB_HEALTH_PACK; ++i) {
 				universe.addGameEntity(new HealthPack(canvas, defineInitLocation(map, generator)));
@@ -159,7 +192,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			for (int t = 0; t < NUMBER_OF_HORSES; ++t) {
 				myHorse = new Horse(canvas);
 				myHorse.setPosition(defineInitLocation(map, generator));
-				
+
 				universe.addGameEntity(initMovableState(myHorse, new EnemyMovableDriver(), new MoveStrategyRandom()));
 				//TODO à enlever lors de la suppression de la classe NON_PLAYER_ENTITY
 				(overlapRules).addNonPlayerEntity(myHorse);
@@ -179,7 +212,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		mv_driv.setStrategy(mv_str);
 		mv_driv.setmoveBlockerChecker(moveBlockerChecker);
 		ent.setDriver(mv_driv);
-		
+
 		return (GameEntity)ent;
 	}
 
@@ -207,15 +240,15 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			System.out.println(s.getName() + " loot shield");
 		}
 	}
-	
+
 	public static void switchInfantryHorseMan(ArmedUnitSoldier inf){
 		List<String> equipments = inf.getEquipments();
 		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", inf.getName(), canvas, "images/knight2.png",inf.getTeam());
-		
+
 		for(String equipment : equipments){
 			new_horseman.addEquipment(equipment);
 		}
-		
+
 		new_horseman.setPosition(inf.getPosition());
 		MoveStrategyMouse mouseStr = new MoveStrategyMouse(new_horseman);
 		canvas.addMouseListener(mouseStr);
@@ -224,4 +257,39 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		universe.removeGameEntity(inf);
 		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), mouseStr));
 	}
+	
+	private SoldierClass classValue(){
+		Random generator = new Random();
+		int soldierType = generator.nextInt(2);
+		if(soldierType < 50)
+			return SoldierClass.SIMPLE;
+		else
+			return SoldierClass.COMPLEX;
+	}
+	
+	private Equipments stuffValue(){
+		Random generator = new Random();
+		int stuff = generator.nextInt(100);
+		if(stuff < 50)
+			return Equipments.NOTHING;
+		else if (stuff < 73)
+			return Equipments.SHIELD;
+		else if (stuff < 90)
+			return Equipments.SWORD;
+		else return Equipments.DOUBLE;
+	}
+
+	private enum SoldierClass{
+		SIMPLE,
+		COMPLEX;
+	}
+	
+	private enum Equipments{
+		NOTHING,
+		SWORD,
+		SHIELD,
+		DOUBLE;
+	}
+	
+	
 }
