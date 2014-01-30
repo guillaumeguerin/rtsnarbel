@@ -105,6 +105,10 @@ public class ArmedUnitSoldier extends GameMovable implements Drawable, GameEntit
 	public String getType(){
 		return typeSoldier;
 	}
+	
+	public List<String> getEquipments(){
+		return equipments;
+	}
 
 	public boolean alive() {
 		return soldier.alive();

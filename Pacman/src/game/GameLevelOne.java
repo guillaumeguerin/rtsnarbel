@@ -33,6 +33,7 @@ import gameframework.game.OverlapProcessorDefaultImpl;
 
 import java.awt.Canvas;
 import java.awt.Point;
+import java.util.List;
 import java.util.Random;
 
 import soldiers.soldier.ArmedUnit;
@@ -228,17 +229,19 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	}
 	
 	public static void switchInfantryHorseMan(ArmedUnitSoldier inf){
-		
+		List<String> equipments = inf.getEquipments();
 		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", inf.getName(), canvas, "images/knight2.png",inf.getTeam());
-		System.out.println(new_horseman.getName());
+		
+		for(String equipment : equipments){
+			new_horseman.addEquipment(equipment);
+		}
+		
 		new_horseman.setPosition(inf.getPosition());
 		MoveStrategyMouse mouseStr = new MoveStrategyMouse(new_horseman);
 		canvas.addMouseListener(mouseStr);
 		if(inf.getSelected())
 			new_horseman.setSelected(true);
-		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), mouseStr));
-
 		universe.removeGameEntity(inf);
-
+		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), mouseStr));
 	}
 }

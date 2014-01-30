@@ -62,8 +62,6 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 	}
 
 	public void overlapRule(MouseCursor m, ArmedUnitSoldier p1) {
-		//System.out.println("mouse over " + p1.getName() + " !");
-
 		m.setPosition(new Point(0,0));
 		if(p1.getTeam() == 0) {
 			if(p1.getSelected())
@@ -75,20 +73,20 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 
 
 	public void battle(ArmedUnitSoldier p1, ArmedUnitSoldier p2) {
-		if(p1.getTeam() != p2.getTeam()) {
-			System.out.println(p1.getName() + " is fighting " + p2.getName() + " !");
+		if(p1.getTeam() != p2.getTeam()) {			
 			p2.parry(p1.strike());
 			p1.parry(p2.strike());
 			ArmedUnitSoldier dead = null;
 			ArmedUnitSoldier winner = null;
 			if (!p1.alive() || !p2.alive()){
-				if(!p1.alive())
+				if(!p1.alive()){
 					winner = p2;
 					dead = p1;
-				if(!p2.alive())
+				}
+				else{
 					dead = p2;
 					winner = p1;
-
+				}
 				if (dead.getTeam() != 0){ // He is not in our team
 					GameLevelOne.NUMBER_OF_ENEMIES--;
 					nb_enemy.setValue(GameLevelOne.NUMBER_OF_ENEMIES);
