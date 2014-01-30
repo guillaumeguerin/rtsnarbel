@@ -14,6 +14,7 @@ import game.rule.GameOverlapRules;
 import gameframework.base.MoveStrategy;
 import gameframework.base.MoveStrategyMouse;
 import gameframework.base.MoveStrategyRandom;
+import gameframework.base.MoveStrategyRandomLazy;
 import gameframework.extended.MoveStrategyKeyboardStop;
 import gameframework.extended.MoveStrategyMouseSelect;
 import gameframework.game.CanvasDefaultImpl;
@@ -101,7 +102,6 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				}
 			}
 
-
 			MouseCursor myMouse = new MouseCursor(canvas);
 			MoveStrategyMouseSelect mouse = new MoveStrategyMouseSelect();
 			GameMovableMouseDriverDefaultImpl mouseDriver = new GameMovableMouseDriverDefaultImpl();
@@ -170,7 +170,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 					enemy.setPosition(pos);
 				}		
 				
-				universe.addGameEntity(initMovableState(enemy, new EnemyMovableDriver(), new MoveStrategyRandom()));
+				universe.addGameEntity(initMovableState(enemy, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
 			}
 			
 			// Horse definition and inclusion in the universe

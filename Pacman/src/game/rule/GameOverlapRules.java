@@ -103,9 +103,6 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 				GameLevelOne.addRandomHealthPack();
 			}
 		}
-
-		/*else
-			System.out.println(p1.getName() + " is hugging " + p2.getName() + " !");*/
 	}
 
 

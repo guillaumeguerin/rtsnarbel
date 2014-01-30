@@ -47,7 +47,7 @@ public class GameDefaultImpl implements Game, Observer {
 	protected int levelNumber;
 	protected ArrayList<GameLevel> gameLevels;
 
-	protected Label enemyText, scoreText;
+	protected Label enemyText, allyText, scoreText;
 	protected Label information;
 	protected Label informationValue;
 	protected Label enemyValue, allyValue, scoreValue;
@@ -64,7 +64,8 @@ public class GameDefaultImpl implements Game, Observer {
 			ally[i] = new ObservableValue<Integer>(0);
 		}
 		enemyText = new Label("Enemy soldiers remaining :");
-		scoreText = new Label("Soldiers in my Team :");
+		allyText = new Label("Soldiers in my team :");
+		scoreText = new Label("Score :");
 		information = new Label("State:");
 		informationValue = new Label("Playing");
 		currentLevel = new Label("Level:");
@@ -156,6 +157,7 @@ public class GameDefaultImpl implements Game, Observer {
 		currentLevelValue = new Label(Integer.toString(levelNumber));
 		c.add(enemyText);
 		c.add(enemyValue);
+		c.add(allyText);
 		c.add(allyValue);
 		c.add(scoreText);
 		c.add(scoreValue);
