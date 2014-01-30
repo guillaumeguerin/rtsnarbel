@@ -8,6 +8,6 @@ public class SoldierWithSword extends SoldierArmed<Sword> {
 	}
 	
 	public static String getSwordImage(){
-		return "images/sword.png";
+		return "images/swordIcone.png";
 	}
 }

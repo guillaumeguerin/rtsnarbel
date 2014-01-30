@@ -50,8 +50,8 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	public static int NUMBER_OF_ENEMIES = 4;
 	public static int NUMBER_OF_ALLIES = 4;
 	public static int HEALTHPACK_DROP_RATE = 5;
-	public static int SWORD_DROP_RATE = 5;
-	public static int SHIELD_DROP_RATE = 4;
+	public static int SWORD_DROP_RATE = 1;
+	public static int SHIELD_DROP_RATE = 1;
 	public static int NB_PLAYER = 1;
 	private static int TOTAL_NB_HEALTH_PACK = 5;
 
@@ -79,7 +79,6 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			gameBoard = new GameUniverseViewPortDefaultImpl(canvas, universe);
 			((CanvasDefaultImpl) canvas).setDrawingGameBoard(gameBoard);
 
-
 			int [][] map = GameMap.createRandomMap();
 
 			// Filling up the universe with basic non movable entities and inclusion in the universe
@@ -102,7 +101,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 					}
 				}
 			}
-
+			
 			MouseCursor myMouse = new MouseCursor(canvas);
 			MoveStrategyMouseSelect mouse = new MoveStrategyMouseSelect();
 			GameMovableMouseDriverDefaultImpl mouseDriver = new GameMovableMouseDriverDefaultImpl();
@@ -111,23 +110,6 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			canvas.addMouseListener(mouse);
 			myMouse.setDriver(mouseDriver);
 			universe.addGameEntity(myMouse);
-
-			
-			/*// Hero definition and inclusion in the universe.
-			SoldierAbstract myHero = new InfantryMan("toto", canvas, "images/knight2.png", 0);
-			myHero.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
-			MoveStrategyKeyboardStop keyStr = new MoveStrategyKeyboardStop();			
-			canvas.addKeyListener(keyStr);
-			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), keyStr));			*/
-			
-			
-			
-			// Hero definition and inclusion in the universe.
-			/*SoldierAbstract myHero = new InfantryMan("toto", canvas, "images/knight2.png", 0);
-			myHero.setPosition(new Point((GameConfig.NB_COLUMNS/2 - 3) * SPRITE_SIZE, (GameConfig.NB_ROWS -5) * SPRITE_SIZE));
-			MoveStrategyMouse mouseStr = new MoveStrategyMouse(myHero);			
-			canvas.addMouseListener(mouseStr);
-			universe.addGameEntity(initMovableState(myHero, new GameMovableDriverDefaultImpl(), mouseStr));			*/
 			
 			AgeFactory af = new MiddleAgeFactory();
 			
@@ -146,13 +128,6 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				canvas.addMouseListener(mouseStr);
 				
 				universe.addGameEntity(initMovableState(ally, new GameMovableDriverDefaultImpl(), mouseStr));
-			}
-			
-			
-			
-			// HealthPack definition and inclusion in the universe.
-			for(int i=0; i<TOTAL_NB_HEALTH_PACK; ++i) {
-				universe.addGameEntity(new HealthPack(canvas, defineInitLocation(map, generator)));
 			}
 			
 			// Enemies definition and inclusion in the universe.
@@ -174,6 +149,11 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				universe.addGameEntity(initMovableState(enemy, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
 			}
 			
+			// HealthPack definition and inclusion in the universe.
+			for(int i=0; i<TOTAL_NB_HEALTH_PACK; ++i) {
+				universe.addGameEntity(new HealthPack(canvas, defineInitLocation(map, generator)));
+			}
+
 			// Horse definition and inclusion in the universe
 			Horse myHorse;
 			for (int t = 0; t < NUMBER_OF_HORSES; ++t) {

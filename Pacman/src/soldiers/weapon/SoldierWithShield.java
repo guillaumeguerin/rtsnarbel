@@ -8,6 +8,6 @@ public class SoldierWithShield extends SoldierArmed<Shield> {
 	}
 	
 	public static String getShieldImage(){
-		return "images/shield.png";
+		return "images/shieldIcone.png";
 	}
 }
