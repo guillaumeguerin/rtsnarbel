@@ -39,8 +39,6 @@ public class MouseCursor extends GameMovable implements GameEntity, Overlappable
 			position = new Point(0,0);
 			driver.setPoint(position);
 		}
-		//setPosition(new Point(0,0));
-		//System.out.println("coord x: " + position.x + " y: " + position.y);
 	}
 	
 	public void oneStepMoveAddedBehavior() {

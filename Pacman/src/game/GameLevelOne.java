@@ -193,7 +193,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				myHorse = new Horse(canvas);
 				myHorse.setPosition(defineInitLocation(map, generator));
 
-				universe.addGameEntity(initMovableState(myHorse, new EnemyMovableDriver(), new MoveStrategyRandom()));
+				universe.addGameEntity(initMovableState(myHorse, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
 				//TODO à enlever lors de la suppression de la classe NON_PLAYER_ENTITY
 				(overlapRules).addNonPlayerEntity(myHorse);
 			}

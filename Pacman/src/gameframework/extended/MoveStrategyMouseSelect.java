@@ -31,12 +31,11 @@ public class MoveStrategyMouseSelect extends MouseAdapter  {
 	public void setPositionRightClick(Point position2) {
 		positionRightClick = position2;
 	}
-	
+
 	// javadoc7 : event.getButton return int >> 0 = nobouton, 1 = bouton1(gauche), 2 = bouton2(molette), 3 = bouton3(droit)
 	public void mousePressed(MouseEvent event) {
 		if(event.getButton() == MouseEvent.BUTTON1) {
 			positionLeftClick = new Point(event.getX()-GameConfig.SPRITE_SIZE/2, event.getY()-GameConfig.SPRITE_SIZE/2);
-			//System.out.println("mouse coord x:" + position.x + " y: " + position.y);
 		}
 		else if(event.getButton() == MouseEvent.BUTTON3) {
 			positionRightClick = new Point(event.getX()-GameConfig.SPRITE_SIZE/2, event.getY()-GameConfig.SPRITE_SIZE/2);

@@ -22,12 +22,10 @@ public class GameMovableMouseDriverDefaultImpl implements GameMovableMouseDriver
 
 	@Override
 	public Point getPoint() {
-		//System.out.println(moveStrategy.getPosition().x + moveStrategy.getPosition().y);
 		return moveStrategy.getPositionLeftClick();
 	}
 
 	public void setPoint(Point position) {
-		// TODO Auto-generated method stub
 		moveStrategy.setPositionLeftClick(position);
 	}
 }
