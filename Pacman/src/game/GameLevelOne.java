@@ -1,5 +1,6 @@
 package game;
 
+import game.entity.Bunny;
 import game.entity.Castle;
 import game.entity.Grass;
 import game.entity.HealthPack;
@@ -13,9 +14,7 @@ import game.rule.GameMoveBlockers;
 import game.rule.GameOverlapRules;
 import gameframework.base.MoveStrategy;
 import gameframework.base.MoveStrategyMouse;
-import gameframework.base.MoveStrategyRandom;
 import gameframework.base.MoveStrategyRandomLazy;
-import gameframework.extended.MoveStrategyKeyboardStop;
 import gameframework.extended.MoveStrategyMouseSelect;
 import gameframework.game.CanvasDefaultImpl;
 import gameframework.game.Game;
@@ -46,8 +45,10 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 	public static final int SPRITE_SIZE = GameConfig.SPRITE_SIZE;
 	public static final int NUMBER_OF_HORSES = 2;
+	public static final int NUMBER_OF_BUNNIES = 3;
 	public static int NUMBER_OF_ENEMIES = 7;
 	public static int NUMBER_OF_ALLIES = 4;
+	public static int NUMBER_OF_PRINCESS = 0; //team 3 test
 	public static int HEALTHPACK_DROP_RATE = 5;
 	public static int SWORD_DROP_RATE = 5;
 	public static int SHIELD_DROP_RATE = 4;
@@ -60,7 +61,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	protected void init() {
 
 		// Check if the number of object is less than the available space
-		if (NUMBER_OF_HORSES + NUMBER_OF_ENEMIES + NUMBER_OF_ALLIES + TOTAL_NB_HEALTH_PACK + GameMap.NB_CASTLES + GameMap.NB_HOUSES + GameMap.NB_TREES + NB_PLAYER <= (GameConfig.NB_COLUMNS-2)*(GameConfig.NB_ROWS-2)){
+		if (NUMBER_OF_HORSES + NUMBER_OF_BUNNIES + NUMBER_OF_ENEMIES + NUMBER_OF_ALLIES + TOTAL_NB_HEALTH_PACK + GameMap.NB_CASTLES + GameMap.NB_HOUSES + GameMap.NB_TREES + NB_PLAYER <= (GameConfig.NB_COLUMNS-2)*(GameConfig.NB_ROWS-2)){
 
 			Random generator = new Random();
 
@@ -120,7 +121,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				ally.setPosition(pos);
 
 				while( map [ ((int)ally.getPosition().getY()/SPRITE_SIZE) ][ ((int)ally.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
-					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/3 ) * SPRITE_SIZE);
+					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE,( ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/3 )+2*GameConfig.NB_ROWS/3) * SPRITE_SIZE);
 					ally.setPosition(pos);
 				}	
 
@@ -181,25 +182,61 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 				universe.addGameEntity(initMovableState(enemy, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
 			}
+			
+			// Test: PrincessTeam definition and inclusion in the universe.
+			ArmedUnitSoldier princess;
+			for(int i=0; i< NUMBER_OF_PRINCESS; ++i) {
+				princess = new ArmedUnitSoldier(af, "Simple", "Princess"+(i+1), canvas, "images/princess1.png", 2);
+				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
+				if(pos.getY()/SPRITE_SIZE < 1)
+					pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
+				princess.setPosition(pos);
 
-			// HealthPack definition and inclusion in the universe.
+				while( map [ ((int)princess.getPosition().getY()/SPRITE_SIZE) ][ ((int)princess.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
+					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/2 ) * SPRITE_SIZE);
+					if(pos.getY()/SPRITE_SIZE < 1)
+						pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
+					princess.setPosition(pos);
+				}		
+
+				universe.addGameEntity(initMovableState(princess, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
+			}
+			// End of princess test
+			
+			// HealthPacks definition and inclusion in the universe.
 			for(int i=0; i<TOTAL_NB_HEALTH_PACK; ++i) {
 				universe.addGameEntity(new HealthPack(canvas, defineInitLocation(map, generator)));
 			}
 
-			// Horse definition and inclusion in the universe
+			// Horses definition and inclusion in the universe
 			Horse myHorse;
 			for (int t = 0; t < NUMBER_OF_HORSES; ++t) {
 				myHorse = new Horse(canvas);
 				myHorse.setPosition(defineInitLocation(map, generator));
 
 				universe.addGameEntity(initMovableState(myHorse, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
-				//TODO à enlever lors de la suppression de la classe NON_PLAYER_ENTITY
-				(overlapRules).addNonPlayerEntity(myHorse);
+			}
+			
+			// Neutral bunnies definition and inclusion in the universe
+			Bunny myBunny;
+			String image = "";
+			for (int t = 0; t < NUMBER_OF_BUNNIES; ++t) {
+				image = "images/bunny" + generator.nextInt(3) + ".png";
+				myBunny = new Bunny(canvas, image);
+				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, ((((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/3)+2*GameConfig.NB_ROWS/3) * SPRITE_SIZE);
+				myBunny.setPosition(pos);
+
+				while( map [ ((int)myBunny.getPosition().getY()/SPRITE_SIZE) ][ ((int)myBunny.getPosition().getX()/SPRITE_SIZE) ] != 0 ){
+					pos.setLocation( (1+generator.nextInt(GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE,( ( ( (1+generator.nextInt(GameConfig.NB_ROWS)-2) )/3 )+2*GameConfig.NB_ROWS/3) * SPRITE_SIZE);
+					myBunny.setPosition(pos);
+				}	
+
+				universe.addGameEntity(initMovableState(myBunny, new EnemyMovableDriver(), new MoveStrategyRandomLazy()));
 			}
 		}
 	}
 
+	// Define coordinates of the location of a unit
 	private Point defineInitLocation(int[][]map, Random generator){
 		Point pos = new Point((generator.nextInt(1+GameConfig.NB_COLUMNS -2)) * SPRITE_SIZE, (1+generator.nextInt(GameConfig.NB_ROWS-2)) * SPRITE_SIZE);
 		while(map[((int)pos.getY()/SPRITE_SIZE)][((int)pos.getX()/SPRITE_SIZE)] != 0){
@@ -208,6 +245,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		return pos;
 	}
 
+	// Initialize the driver and the strategy of moving entity
 	private static GameEntity initMovableState (GameMovable ent, GameMovableDriverDefaultImpl mv_driv, MoveStrategy mv_str){
 		mv_driv.setStrategy(mv_str);
 		mv_driv.setmoveBlockerChecker(moveBlockerChecker);
@@ -216,6 +254,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		return (GameEntity)ent;
 	}
 
+	// Definition and inclusion in the universe healpacks which droped from fight
 	public static void addRandomHealthPack() {
 		Random generator = new Random();
 		if(generator.nextInt(HEALTHPACK_DROP_RATE) == 0) {
@@ -229,6 +268,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		canvas = g.getCanvas();
 	}
 
+	// Allies can loot some stuff from fight
 	public static void loot(ArmedUnitSoldier s){
 		Random generator = new Random();
 		if (generator.nextInt(SWORD_DROP_RATE) == 0){
@@ -241,6 +281,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		}
 	}
 
+	// Allies infantrymen can become horsemen if they cross the road of an horse
 	public static void switchInfantryHorseMan(ArmedUnitSoldier inf){
 		List<String> equipments = inf.getEquipments();
 		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", inf.getName(), canvas, "images/knight2.png",inf.getTeam());
@@ -258,6 +299,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		universe.addGameEntity(initMovableState(new_horseman, new GameMovableDriverDefaultImpl(), mouseStr));
 	}
 	
+	// Methods and Enums used to train and stuff enemies' soldier
 	private SoldierClass classValue(){
 		Random generator = new Random();
 		int soldierType = generator.nextInt(2);

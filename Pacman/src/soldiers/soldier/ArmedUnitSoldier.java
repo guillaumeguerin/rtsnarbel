@@ -168,8 +168,8 @@ public class ArmedUnitSoldier extends GameMovable implements Drawable, GameEntit
 			spriteType = "static";
 			spriteManager.reset();
 			movable = false;
-			
 		}
+		
 		spriteManager.setType(spriteType);
 		spriteManager.draw(g, getPosition());
 		for(SpriteManagerDefaultImpl spr : spriteManagerEquipment)

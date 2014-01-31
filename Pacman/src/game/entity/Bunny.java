@@ -11,23 +11,23 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class Horse extends NonPlayerEntity implements Drawable, GameEntity,
+public class Bunny extends NonPlayerEntity implements Drawable, GameEntity,
 		Overlappable {
 	protected static DrawableImage image = null;
 	protected boolean movable = true;
 	private final SpriteManagerDefaultImpl spriteManager;
 	public static final int RENDERING_SIZE = 32;
 
-	public Horse(Canvas defaultCanvas) {
-		spriteManager = new SpriteManagerDefaultImpl("images/horse.png",
-				defaultCanvas, RENDERING_SIZE, 8);
+	public Bunny(Canvas defaultCanvas, String image) {
+		spriteManager = new SpriteManagerDefaultImpl(image,
+				defaultCanvas, RENDERING_SIZE, 3);
 		spriteManager.setTypes(
 				//
 				"left",
 				"right",
 				"up",
 				"down",//
-				"unused");
+				"static","unused");
 	}
 
 	public void setAlive(boolean aliveState) {
@@ -45,8 +45,11 @@ public class Horse extends NonPlayerEntity implements Drawable, GameEntity,
 			spriteType += "down";
 		} else if (tmp.getY() == -1) {
 			spriteType += "up";
-		} else {
+		} else if (tmp.getX() == 1) {
 			spriteType += "left";
+		}else {
+			spriteType = "static";
+			spriteManager.reset();
 		}
 
 		spriteManager.setType(spriteType);
