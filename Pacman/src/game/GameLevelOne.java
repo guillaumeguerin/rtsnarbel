@@ -273,11 +273,9 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 		Random generator = new Random();
 		if (generator.nextInt(SWORD_DROP_RATE) == 0){
 			s.addEquipment("Offensive");
-			System.out.println(s.getName() + " loot sword");
 		}
 		if (generator.nextInt(SHIELD_DROP_RATE) == 0){
 			s.addEquipment("Defensive");
-			System.out.println(s.getName() + " loot shield");
 		}
 	}
 
