@@ -57,9 +57,6 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 			GameLevelOne.switchInfantryHorseMan(s);
 		}
 	}
-	public void overlapRule(ArmedUnitSoldier p1, ArmedUnitSoldier p2) {
-		battle(p1, p2);
-	}
 
 	public void overlapRule(MouseCursor m, ArmedUnitSoldier p1) {
 		m.setPosition(new Point(0,0));
@@ -71,6 +68,10 @@ public class GameOverlapRules extends OverlapRulesApplierDefaultImpl {
 		}
 	}
 
+	public void overlapRule(ArmedUnitSoldier p1, ArmedUnitSoldier p2) {
+		battle(p1, p2);
+	}
+	
 	public void battle(ArmedUnitSoldier p1, ArmedUnitSoldier p2) {
 		if(p1.getTeam() != p2.getTeam()) {
 			//If two soldiers of different factions are identical, the player always win.

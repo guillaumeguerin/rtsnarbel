@@ -7,14 +7,10 @@ import java.awt.Rectangle;
 
 import gameframework.base.Drawable;
 import gameframework.base.DrawableImage;
-import gameframework.base.Movable;
 import gameframework.base.Overlappable;
-import gameframework.base.SpeedVector;
 import gameframework.game.GameConfig;
 import gameframework.game.GameEntity;
 import gameframework.game.GameMovable;
-import gameframework.game.GameMovableDriver;
-import gameframework.game.GameMovableDriverDefaultImpl;
 import gameframework.game.GameMovableMouseDriverDefaultImpl;
 
 public class MouseCursor extends GameMovable implements GameEntity, Overlappable, Drawable{

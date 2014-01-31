@@ -10,7 +10,6 @@ import game.entity.MouseCursor;
 import game.entity.Tree;
 import game.entity.Water;
 import game.rule.EnemyMovableDriver;
-import game.rule.GameMoveBlockers;
 import game.rule.GameOverlapRules;
 import gameframework.base.MoveStrategy;
 import gameframework.base.MoveStrategyMouse;
@@ -68,7 +67,6 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			OverlapProcessor overlapProcessor = new OverlapProcessorDefaultImpl();
 
 			moveBlockerChecker = new MoveBlockerCheckerDefaultImpl();
-			moveBlockerChecker.setMoveBlockerRules(new GameMoveBlockers());
 
 			GameOverlapRules overlapRules = new GameOverlapRules(enemy[0], ally[0], score[0], endOfGame);
 			overlapProcessor.setOverlapRules(overlapRules);
