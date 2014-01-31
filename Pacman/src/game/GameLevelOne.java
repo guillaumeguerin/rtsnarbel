@@ -116,7 +116,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 
 			ArmedUnitSoldier ally;
 			for(int i=0; i< NUMBER_OF_ALLIES; ++i) {
-				ally = new ArmedUnitSoldier(af, "Simple", "Ally " + (i+1), canvas, "images/knight2.png", 0);
+				ally = new ArmedUnitSoldier(af, "Simple", "I Ally " + (i+1), canvas, "images/knight2.png", 0);
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, ((((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/3)+2*GameConfig.NB_ROWS/3) * SPRITE_SIZE);
 				ally.setPosition(pos);
 
@@ -138,10 +138,10 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 				// Define a random chance to be a class or other
 				switch(classValue()){
 				case SIMPLE:
-					enemy = new ArmedUnitSoldier(af, "Simple", "Enemy " + (i+1), canvas, "images/knight1.png", 1);
+					enemy = new ArmedUnitSoldier(af, "Simple", "I Enemy " + (i+1), canvas, "images/knight1.png", 1);
 					break;
 				case COMPLEX:
-					enemy = new ArmedUnitSoldier(af, "Complex", "Enemy " + (i+1), canvas, "images/knight1.png", 1);
+					enemy = new ArmedUnitSoldier(af, "Complex", "H Enemy " + (i+1), canvas, "images/knight1.png", 1);
 					break;
 				default:
 					System.err.println("Error : Random soldier class.");
@@ -186,7 +186,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 			// Test: PrincessTeam definition and inclusion in the universe.
 			ArmedUnitSoldier princess;
 			for(int i=0; i< NUMBER_OF_PRINCESS; ++i) {
-				princess = new ArmedUnitSoldier(af, "Simple", "Princess"+(i+1), canvas, "images/princess1.png", 2);
+				princess = new ArmedUnitSoldier(af, "Simple", "I Princess"+(i+1), canvas, "images/princess1.png", 2);
 				Point pos = new Point((generator.nextInt(GameConfig.NB_COLUMNS -2)+1) * SPRITE_SIZE, (((generator.nextInt(GameConfig.NB_ROWS)-2)+1)/2) * SPRITE_SIZE);
 				if(pos.getY()/SPRITE_SIZE < 1)
 					pos.setLocation(pos.getX(), 1*SPRITE_SIZE);
@@ -284,7 +284,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	// Allies infantrymen can become horsemen if they cross the road of an horse
 	public static void switchInfantryHorseMan(ArmedUnitSoldier inf){
 		List<String> equipments = inf.getEquipments();
-		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", inf.getName(), canvas, "images/knight2.png",inf.getTeam());
+		ArmedUnitSoldier new_horseman = new ArmedUnitSoldier(inf.getAge(), "Complex", "H "+inf.getName().substring(2), canvas, "images/knight2.png",inf.getTeam());
 
 		for(String equipment : equipments){
 			new_horseman.addEquipment(equipment);
@@ -303,7 +303,7 @@ public class GameLevelOne extends GameLevelDefaultImpl {
 	private SoldierClass classValue(){
 		Random generator = new Random();
 		int soldierType = generator.nextInt(2);
-		if(soldierType < 50)
+		if(soldierType < 1)
 			return SoldierClass.SIMPLE;
 		else
 			return SoldierClass.COMPLEX;
