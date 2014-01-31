@@ -16,9 +16,6 @@ public class NonPlayerEntity extends GameMovable implements Drawable, GameEntity
 		Overlappable {
 	protected static DrawableImage image = null;
 	protected boolean movable = true;
-	protected int afraidTimer = 0;
-	protected int maxAfraidTimer = 0;
-	protected boolean active = true;
 	private final SpriteManagerDefaultImpl spriteManager;
 	public static final int RENDERING_SIZE = 32;
 
@@ -36,46 +33,13 @@ public class NonPlayerEntity extends GameMovable implements Drawable, GameEntity
 				"right",
 				"up",
 				"down",//
-				"beginAfraid-left",
-				"beginAfraid-right",
-				"beginAfraid-up",
-				"beginAfraid-down", //
-				"endAfraid-left", "endAfraid-right",
-				"endAfraid-up",
-				"endAfraid-down", //
-				"inactive-left", "inactive-right", "inactive-up",
-				"inactive-down", //
 				"unused");
-	}
-
-	public boolean isAfraid() {
-		return afraidTimer > 0;
-	}
-
-	public void setAfraid(int timer) {
-		maxAfraidTimer = afraidTimer = timer;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setAlive(boolean aliveState) {
-		active = aliveState;
 	}
 
 	public void draw(Graphics g) {
 		String spriteType = "";
 		Point tmp = getSpeedVector().getDirection();
 		movable = true;
-
-		if (!isActive()) {
-			spriteType = "inactive-";
-		} else if (afraidTimer > maxAfraidTimer / 2) {
-			spriteType = "beginAfraid-";
-		} else if (isAfraid()) {
-			spriteType = "endAfraid-";
-		}
 
 		if (tmp.getX() == -1) {
 			spriteType += "left";
@@ -94,9 +58,6 @@ public class NonPlayerEntity extends GameMovable implements Drawable, GameEntity
 	public void oneStepMoveAddedBehavior() {
 		if (movable) {
 			spriteManager.increment();
-			if (isAfraid()) {
-				afraidTimer--;
-			}
 		}
 	}
 

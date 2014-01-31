@@ -27,11 +27,7 @@ public class Bunny extends NonPlayerEntity implements Drawable, GameEntity,
 				"right",
 				"up",
 				"down",//
-				"static","unused");
-	}
-
-	public void setAlive(boolean aliveState) {
-		active = aliveState;
+				"static");
 	}
 
 	public void draw(Graphics g) {

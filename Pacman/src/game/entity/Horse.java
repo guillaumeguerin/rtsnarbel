@@ -30,10 +30,6 @@ public class Horse extends NonPlayerEntity implements Drawable, GameEntity,
 				"unused");
 	}
 
-	public void setAlive(boolean aliveState) {
-		active = aliveState;
-	}
-
 	public void draw(Graphics g) {
 		String spriteType = "";
 		Point tmp = getSpeedVector().getDirection();
